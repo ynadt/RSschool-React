@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import './App.css';
-import Search from './Search';
-import Results from './Results';
+import Search from './components/Search';
+import CardList from './components/CardList';
 
 interface AppState {
   searchTerm: string;
@@ -57,9 +57,8 @@ class App extends PureComponent<Record<string, unknown>, AppState> {
   };
 
   handleSearch = (term: string) => {
-    const trimmedTerm = term.trim();
-    localStorage.setItem('searchTerm', trimmedTerm);
-    this.setState({ searchTerm: trimmedTerm });
+    localStorage.setItem('searchTerm', term);
+    this.setState({ searchTerm: term });
   };
 
   throwError = () => {
@@ -80,7 +79,7 @@ class App extends PureComponent<Record<string, unknown>, AppState> {
           {this.state.loading ? (
             <p className="loader">Loading...</p>
           ) : this.state.error ? null : (
-            <Results results={this.state.results} />
+            <CardList results={this.state.results} />
           )}
         </div>
       </div>

@@ -23,13 +23,19 @@ class Search extends PureComponent<SearchProps, SearchState> {
   };
 
   handleSearch = () => {
-    this.props.onSearch(this.state.searchTerm);
+    this.props.onSearch(this.state.searchTerm.trim());
+  };
+
+  handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      this.handleSearch();
+    }
   };
 
   render() {
     return (
       <div className="search">
-        <input type="text" value={this.state.searchTerm} onChange={this.handleChange} />
+        <input type="text" value={this.state.searchTerm} onChange={this.handleChange} onKeyDown={this.handleKeyDown} />
         <button onClick={this.handleSearch}>Search</button>
         <button onClick={this.props.throwError}>Throw Error</button>
       </div>
