@@ -1,4 +1,4 @@
-import React from 'react';
+import { PureComponent } from 'react';
 import './App.css';
 import Search from './Search';
 import Results from './Results';
@@ -11,7 +11,7 @@ interface AppState {
   shouldThrowError: boolean;
 }
 
-class App extends React.Component<Record<string, unknown>, AppState> {
+class App extends PureComponent<Record<string, unknown>, AppState> {
   constructor(props: Record<string, unknown>) {
     super(props);
     this.state = {
@@ -25,6 +25,12 @@ class App extends React.Component<Record<string, unknown>, AppState> {
 
   componentDidMount() {
     this.fetchResults(this.state.searchTerm);
+  }
+
+  componentDidUpdate(_: Record<string, unknown>, prevState: AppState) {
+    if (prevState.searchTerm !== this.state.searchTerm) {
+      this.fetchResults(this.state.searchTerm);
+    }
   }
 
   fetchResults = (term: string) => {
@@ -44,13 +50,16 @@ class App extends React.Component<Record<string, unknown>, AppState> {
         }));
         this.setState({ results, loading: false });
       })
-      .catch((error) => this.setState({ error, loading: false }));
+      .catch((error) => {
+        console.error('Error fetching results', error);
+        this.setState({ error, loading: false });
+      });
   };
 
   handleSearch = (term: string) => {
     const trimmedTerm = term.trim();
     localStorage.setItem('searchTerm', trimmedTerm);
-    this.fetchResults(trimmedTerm);
+    this.setState({ searchTerm: trimmedTerm });
   };
 
   throwError = () => {
@@ -69,10 +78,8 @@ class App extends React.Component<Record<string, unknown>, AppState> {
         </div>
         <div className="bottom-section">
           {this.state.loading ? (
-            <p>Loading...</p>
-          ) : this.state.error ? (
-            <p>Something went wrong: {this.state.error.message}</p>
-          ) : (
+            <p className="loader">Loading...</p>
+          ) : this.state.error ? null : (
             <Results results={this.state.results} />
           )}
         </div>

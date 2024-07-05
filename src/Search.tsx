@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 interface SearchProps {
   onSearch: (term: string) => void;
@@ -10,7 +10,7 @@ interface SearchState {
   searchTerm: string;
 }
 
-class Search extends React.Component<SearchProps, SearchState> {
+class Search extends PureComponent<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
     this.state = {

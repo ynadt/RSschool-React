@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
+import styles from './ErrorBoundary.module.css';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -18,14 +19,14 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div>
+        <div className={styles.errorBoundary}>
           <h1>Something went wrong.</h1>
           <button onClick={() => window.location.reload()}>Try Again</button>
         </div>
