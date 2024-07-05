@@ -12,7 +12,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:import/typescript'
+    'plugin:import/typescript',
   ],
   overrides: [
     {
@@ -37,7 +37,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'import/no-unresolved': 'error',
     'import/default': 'off',
-    "import/no-named-as-default-member": "off",
+    'import/no-named-as-default-member': 'off',
   },
   settings: {
     react: {
