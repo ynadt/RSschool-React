@@ -31,13 +31,14 @@ module.exports = {
     sourceType: 'module',
     project: ['./tsconfig.app.json', './tsconfig.node.json'],
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'import'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'import', 'react-compiler'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error',
     'import/no-unresolved': 'error',
     'import/default': 'off',
     'import/no-named-as-default-member': 'off',
+    'react-compiler/react-compiler': 'error',
   },
   settings: {
     react: {
