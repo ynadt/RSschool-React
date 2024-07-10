@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 
 interface SearchProps {
   onSearch: (term: string) => void;
@@ -6,41 +6,30 @@ interface SearchProps {
   throwError: () => void;
 }
 
-interface SearchState {
-  searchTerm: string;
-}
+const Search: React.FC<SearchProps> = ({ onSearch, initialTerm, throwError }) => {
+  const [searchTerm, setSearchTerm] = useState(initialTerm || '');
 
-class Search extends PureComponent<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      searchTerm: props.initialTerm || '',
-    };
-  }
-
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
-  handleSearch = () => {
-    this.props.onSearch(this.state.searchTerm.trim());
+  const handleSearch = () => {
+    onSearch(searchTerm.trim());
   };
 
-  handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      this.handleSearch();
+      handleSearch();
     }
   };
 
-  render() {
-    return (
-      <div className="search">
-        <input type="text" value={this.state.searchTerm} onChange={this.handleChange} onKeyDown={this.handleKeyDown} />
-        <button onClick={this.handleSearch}>Search</button>
-        <button onClick={this.props.throwError}>Throw Error</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="search">
+      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <button onClick={handleSearch}>Search</button>
+      <button onClick={throwError}>Throw Error</button>
+    </div>
+  );
+};
 
 export default Search;

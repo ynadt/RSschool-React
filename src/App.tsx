@@ -1,40 +1,23 @@
-import { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Search from './components/Search';
 import CardList from './components/CardList';
+import useSearchTerm from './hooks/useSearchTerm';
 
-interface AppState {
-  searchTerm: string;
-  results: Array<{ mal_id: number; title: string; synopsis: string }>;
-  loading: boolean;
-  error: Error | null;
-  shouldThrowError: boolean;
-}
+const App: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useSearchTerm('');
+  const [results, setResults] = useState<Array<{ mal_id: number; title: string; synopsis: string }>>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [shouldThrowError, setShouldThrowError] = useState(false);
 
-class App extends PureComponent<Record<string, unknown>, AppState> {
-  constructor(props: Record<string, unknown>) {
-    super(props);
-    this.state = {
-      searchTerm: localStorage.getItem('searchTerm') || '',
-      results: [],
-      loading: false,
-      error: null,
-      shouldThrowError: false,
-    };
-  }
+  useEffect(() => {
+    fetchResults(searchTerm);
+  }, [searchTerm]);
 
-  componentDidMount() {
-    this.fetchResults(this.state.searchTerm);
-  }
-
-  componentDidUpdate(_: Record<string, unknown>, prevState: AppState) {
-    if (prevState.searchTerm !== this.state.searchTerm) {
-      this.fetchResults(this.state.searchTerm);
-    }
-  }
-
-  fetchResults = (term: string) => {
-    this.setState({ loading: true, error: null });
+  const fetchResults = (term: string) => {
+    setLoading(true);
+    setError(null);
 
     const apiEndpoint = term
       ? `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(term)}`
@@ -48,43 +31,38 @@ class App extends PureComponent<Record<string, unknown>, AppState> {
           title: item.title,
           synopsis: item.synopsis,
         }));
-        this.setState({ results, loading: false });
+        setResults(results);
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching results', error);
-        this.setState({ error, loading: false });
+        setError(error);
+        setLoading(false);
       });
   };
 
-  handleSearch = (term: string) => {
-    localStorage.setItem('searchTerm', term);
-    this.setState({ searchTerm: term });
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
   };
 
-  throwError = () => {
-    this.setState({ shouldThrowError: true });
+  const throwError = () => {
+    setShouldThrowError(true);
   };
 
-  render() {
-    if (this.state.shouldThrowError) {
-      throw new Error('Test error');
-    }
-
-    return (
-      <div className="App">
-        <div className="top-section">
-          <Search onSearch={this.handleSearch} initialTerm={this.state.searchTerm} throwError={this.throwError} />
-        </div>
-        <div className="bottom-section">
-          {this.state.loading ? (
-            <p className="loader">Loading...</p>
-          ) : this.state.error ? null : (
-            <CardList results={this.state.results} />
-          )}
-        </div>
-      </div>
-    );
+  if (shouldThrowError) {
+    throw new Error('Test error');
   }
-}
+
+  return (
+    <div className="App">
+      <div className="top-section">
+        <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
+      </div>
+      <div className="bottom-section">
+        {loading ? <p className="loader">Loading...</p> : error ? null : <CardList results={results} />}
+      </div>
+    </div>
+  );
+};
 
 export default App;
