@@ -86,11 +86,16 @@ const App: React.FC = () => {
           <p className="error">Error: {error.message}</p>
         ) : (
           <div className="results-layout">
-            <div className="results-section" onClick={handleLeftSectionClick}>
+            <div
+              className={`results-section ${results.length === 0 ? 'no-results' : ''}`}
+              onClick={handleLeftSectionClick}
+            >
               <CardList results={results} />
-              <Pagination currentPage={page} totalItems={totalItems} itemsPerPage={itemsPerPage} />
+              {results.length > 0 && (
+                <Pagination currentPage={page} totalItems={totalItems} itemsPerPage={itemsPerPage} />
+              )}
             </div>
-            {details && (
+            {results.length > 0 && details && (
               <div className="details-section">
                 <button className="close-button" onClick={handleCloseDetails}>
                   Close

@@ -71,8 +71,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
       </button>
       {renderPageNumbers()}
       <button
-        className={currentPage === totalPages ? styles.inactive : ''}
-        disabled={currentPage === totalPages}
+        className={currentPage === totalPages || totalItems === 0 ? styles.inactive : ''}
+        disabled={currentPage === totalPages || totalItems === 0}
         onClick={() => handlePageChange(currentPage + 1)}
       >
         Next

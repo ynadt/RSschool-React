@@ -29,6 +29,7 @@ body {
 }
 
 .search-section {
+  min-width: 100vw;
   padding: 10px 20px;
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
@@ -59,6 +60,10 @@ body {
   overflow-y: auto;
   height: 100%;
   cursor: pointer;
+}
+
+.results-section.no-results {
+  border-right: none;
 }
 
 .details-section {
