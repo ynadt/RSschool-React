@@ -1,4 +1,4 @@
-I have App.css #root {
+#root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
@@ -28,7 +28,7 @@ body {
   overflow: hidden;
 }
 
-.top-section {
+.search-section {
   padding: 10px 20px;
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
@@ -38,10 +38,52 @@ body {
   flex-shrink: 0;
 }
 
-.bottom-section {
+.content-section {
   flex: 1;
+  display: flex;
   padding: 10px 20px;
+  overflow: hidden;
+}
+
+.results-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.results-section {
+  flex: 2;
+  padding-right: 10px;
+  border-right: 1px solid #dee2e6;
   overflow-y: auto;
+  height: 100%;
+  cursor: pointer;
+}
+
+.details-section {
+  flex: 1;
+  padding-left: 10px;
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
+  padding-top: 40px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background: #f8f9fa none;
+  transition: background-color 0.3s;
+}
+
+.close-button:hover {
+  background-color: #e9ecef;
 }
 
 .search {
@@ -59,6 +101,7 @@ body {
   padding: 10px;
   border: 1px solid #dee2e6;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .loader {

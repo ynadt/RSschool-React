@@ -20,7 +20,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPageNumbersToShow = 5; // Number of page buttons to display
+    const maxPageNumbersToShow = 5;
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbersToShow / 2), 1);
     const endPage = Math.min(startPage + maxPageNumbersToShow - 1, totalPages);
 

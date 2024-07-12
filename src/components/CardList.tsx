@@ -14,7 +14,7 @@ const CardList: React.FC<CardListProps> = ({ results }) => {
   return (
     <div className={styles.cardList}>
       {results.map((item, index) => (
-        <Card key={`${item.mal_id}-${index}`} title={item.title} synopsis={item.synopsis} />
+        <Card key={`${item.mal_id}-${index}`} mal_id={item.mal_id} title={item.title} synopsis={item.synopsis} />
       ))}
     </div>
   );

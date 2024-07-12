@@ -5,6 +5,7 @@ import CardList from './components/CardList';
 import Pagination from './components/Pagination';
 import useSearchTerm from './hooks/useSearchTerm';
 import { useSearchParams } from 'react-router-dom';
+import ItemDetails from './components/ItemDetails';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = parseInt(searchParams.get('page') || '1', 10);
+  const details = searchParams.get('details');
   const itemsPerPage = 25;
 
   useEffect(() => {
@@ -58,25 +60,45 @@ const App: React.FC = () => {
     setShouldThrowError(true);
   };
 
+  const handleCloseDetails = () => {
+    setSearchParams({ page: searchParams.get('page') || '1' });
+  };
+
+  const handleLeftSectionClick = () => {
+    if (details) {
+      handleCloseDetails();
+    }
+  };
+
   if (shouldThrowError) {
     throw new Error('Test error');
   }
 
   return (
     <div className="App">
-      <div className="top-section">
+      <div className="search-section">
         <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
       </div>
-      <div className="bottom-section">
+      <div className="content-section">
         {loading ? (
           <p className="loader">Loading...</p>
         ) : error ? (
           <p className="error">Error: {error.message}</p>
         ) : (
-          <>
-            <CardList results={results} />
-            <Pagination currentPage={page} totalItems={totalItems} itemsPerPage={itemsPerPage} />
-          </>
+          <div className="results-layout">
+            <div className="results-section" onClick={handleLeftSectionClick}>
+              <CardList results={results} />
+              <Pagination currentPage={page} totalItems={totalItems} itemsPerPage={itemsPerPage} />
+            </div>
+            {details && (
+              <div className="details-section">
+                <button className="close-button" onClick={handleCloseDetails}>
+                  Close
+                </button>
+                <ItemDetails id={details} />
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
