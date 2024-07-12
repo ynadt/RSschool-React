@@ -29,7 +29,7 @@ body {
 }
 
 .search-section {
-  min-width: 100vw;
+  min-width: 95vw;
   padding: 10px 20px;
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
@@ -50,7 +50,6 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: calc(100% - 40px);
 }
 
 .results-section {
@@ -70,10 +69,10 @@ body {
   flex: 1;
   padding-left: 10px;
   overflow-y: auto;
-  height: 100%;
   position: relative;
   padding-top: 40px;
   padding-bottom: 20px;
+  height: calc(100% - 45px);
 }
 
 .close-button {
