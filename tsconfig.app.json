@@ -32,5 +32,5 @@
       "@router/*": ["src/router/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*"]
 }

@@ -4,9 +4,7 @@ const useSearchTerm = (initialValue: string) => {
   const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || initialValue);
 
   useEffect(() => {
-    return () => {
-      localStorage.setItem('searchTerm', searchTerm);
-    };
+    localStorage.setItem('searchTerm', searchTerm);
   }, [searchTerm]);
 
   return [searchTerm, setSearchTerm] as const;
