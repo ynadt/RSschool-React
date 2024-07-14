@@ -61,7 +61,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   };
 
   return (
-    <div className={styles.pagination}>
+    <div className={`${styles.pagination} pagination`}>
       <button
         className={currentPage === 1 ? styles.inactive : ''}
         disabled={currentPage === 1}

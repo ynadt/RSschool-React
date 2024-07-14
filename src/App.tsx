@@ -5,7 +5,7 @@ import CardList from './components/CardList';
 import Pagination from './components/Pagination';
 import useSearchTerm from './hooks/useSearchTerm';
 import { useSearchParams } from 'react-router-dom';
-import ItemDetails from './components/ItemDetails';
+import CardDetails from './components/CardDetails';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
@@ -64,8 +64,12 @@ const App: React.FC = () => {
     setSearchParams({ page: searchParams.get('page') || '1' });
   };
 
-  const handleLeftSectionClick = () => {
-    if (details) {
+  const handleCardListClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!(event.target instanceof HTMLElement)) return;
+    const card = event.target.closest('.card');
+    const paginationButton = event.target.closest('.pagination button');
+    const paginationEllipsis = event.target.closest('.pagination span');
+    if (!card && !(paginationButton || paginationEllipsis) && details) {
       handleCloseDetails();
     }
   };
@@ -88,7 +92,7 @@ const App: React.FC = () => {
           <div className="results-layout">
             <div
               className={`results-section ${results.length === 0 ? 'no-results' : ''}`}
-              onClick={handleLeftSectionClick}
+              onClick={handleCardListClick}
             >
               <CardList results={results} />
               {results.length > 0 && (
@@ -100,7 +104,7 @@ const App: React.FC = () => {
                 <button className="close-button" onClick={handleCloseDetails}>
                   Close
                 </button>
-                <ItemDetails id={details} />
+                <CardDetails id={details} />
               </div>
             )}
           </div>

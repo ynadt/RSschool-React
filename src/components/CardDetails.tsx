@@ -22,7 +22,7 @@ interface AnimeDetails {
   };
 }
 
-const ItemDetails: React.FC<ItemDetailsProps> = ({ id }) => {
+const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
   const [item, setItem] = useState<AnimeDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -94,4 +94,4 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({ id }) => {
   );
 };
 
-export default ItemDetails;
+export default CardDetails;

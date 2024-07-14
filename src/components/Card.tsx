@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis }) => {
   };
 
   return (
-    <div className={styles.card} onClick={handleClick}>
+    <div className={`${styles.card} card`} onClick={handleClick}>
       <h3>{title}</h3>
       <p>{synopsis}</p>
     </div>
