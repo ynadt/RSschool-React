@@ -1,0 +1,12 @@
+.card {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
