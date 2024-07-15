@@ -1,8 +1,43 @@
 .card {
+  position: relative;
   padding: 10px;
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin: 10px;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+}
+
+.card p {
+  margin: 0;
+}
+
+.favoriteIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.favoriteIcon:hover .unfilledStar,
+.favoriteIcon:hover .filledStar {
+  color: darkgray;
+}
+
+.unfilledStar {
+  color: gray;
+}
+
+.filledStar {
+  color: rgba(73, 77, 100, 0.84);
 }
 
 .cardList {

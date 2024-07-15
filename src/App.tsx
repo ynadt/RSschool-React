@@ -6,6 +6,7 @@ import Pagination from './components/Pagination';
 import useSearchTerm from './hooks/useSearchTerm';
 import { useSearchParams } from 'react-router-dom';
 import CardDetails from './components/CardDetails';
+import FavoritesFlyout from './components/FavoritesFlyout';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
@@ -110,6 +111,7 @@ const App: React.FC = () => {
           </div>
         )}
       </div>
+      <FavoritesFlyout />
     </div>
   );
 };
