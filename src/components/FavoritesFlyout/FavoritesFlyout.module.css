@@ -2,11 +2,12 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: var(--favorites-flyout-background-color);
+  border: 1px solid var(--favorites-flyout-border-color);
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: var(--favorites-flyout-text-color);
 }
 
 .favoritesFlyout p {
@@ -17,12 +18,16 @@
   margin-right: 10px;
   padding: 5px 10px;
   border: none;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--favorites-flyout-button-background-color);
+  color: var(--favorites-flyout-button-text-color);
   border-radius: 3px;
   cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .favoritesFlyout button:hover {
-  background-color: #0056b3;
+  background-color: var(--favorites-flyout-button-hover-background-color);
+  color: var(--favorites-flyout-button-hover-text-color);
 }

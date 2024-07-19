@@ -1,7 +1,8 @@
 .itemDetails {
   padding: 16px;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--card-background-color);
+  color: var(--card-text-color);
 }
 
 .trailer {

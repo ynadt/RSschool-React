@@ -42,7 +42,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
       </p>
       <p>{item.synopsis}</p>
       {item.trailer?.embed_url && (
-        <div className="trailer">
+        <div className={styles.trailer}>
           <iframe
             src={item.trailer.embed_url.replace('autoplay=1', 'autoplay=0')}
             title="YouTube video player"

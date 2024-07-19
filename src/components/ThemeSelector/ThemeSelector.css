@@ -10,11 +10,11 @@
 }
 
 .theme-toggle-checkbox-label {
-  background-color: rgba(73, 77, 100, 0.84);
+  background-color: var(--theme-toggle-background-color);
   width: 50px;
-  height: 26px;
+  height: 22px;
   border-radius: 50px;
-  border: #dee2e6 1px solid;
+  border: var(--theme-toggle-border-color) 1px solid;
   position: relative;
   padding: 5px;
   cursor: pointer;
@@ -27,16 +27,16 @@
   width: 16px;
   height: 16px;
   z-index: 9;
-  color: rgba(255, 215, 0, 0.84);
+  color: var(--theme-toggle-icon-color);
 }
 
 .theme-toggle-checkbox-label .ball {
-  background-color: #fff;
+  background-color: var(--theme-toggle-ball-background-color);
   width: 25px;
   height: 25px;
   position: absolute;
   left: 6px;
-  top: 4px;
+  top: 3px;
   border-radius: 50%;
   transition: transform 0.2s linear;
   z-index: 10;
@@ -47,9 +47,9 @@
 }
 
 .theme-toggle-checkbox-label .fa-moon {
-  color: #e7eaef;
+  color: var(--theme-toggle-moon-color);
 }
 
 .theme-toggle-checkbox-label .fa-sun {
-  color: rgba(255, 215, 0, 0.94);
+  color: var(--theme-toggle-sun-color);
 }

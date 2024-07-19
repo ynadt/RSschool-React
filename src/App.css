@@ -26,13 +26,15 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .search-section {
   min-width: 95vw;
   padding: 10px 20px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background-color: var(--search-background-color);
+  border-bottom: 1px solid var(--button-background-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +58,7 @@ body {
 .results-section {
   flex: 2;
   padding-right: 10px;
-  border-right: 1px solid #dee2e6;
+  border-right: 1px solid var(--button-background-color);
   overflow-y: auto;
   height: 100%;
   cursor: pointer;
@@ -71,26 +73,26 @@ body {
   padding-left: 10px;
   overflow-y: auto;
   position: relative;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-bottom: 20px;
   height: calc(100% - 45px);
 }
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 25px;
+  right: 15px;
   font-size: 16px;
   cursor: pointer;
   padding: 5px 10px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--button-background-color);
   border-radius: 4px;
-  background: #f8f9fa none;
+  background: var(--input-background-color) none;
   transition: background-color 0.3s;
 }
 
 .close-button:hover {
-  background-color: #e9ecef;
+  background-color: var(--button-hover-background-color);
 }
 
 .item-details {
@@ -128,7 +130,7 @@ body {
 
 .result-item {
   padding: 10px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--button-background-color);
   border-radius: 4px;
   cursor: pointer;
 }

@@ -8,22 +8,26 @@
 .pagination .pageButton,
 .pagination .pageNumber {
   padding: 5px 10px;
-  border: 1px solid #dee2e6;
-  background-color: #f8f9fa;
+  border: 1px solid var(--pagination-border-color);
+  background-color: var(--pagination-background-color);
+  color: var(--pagination-text-color);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .pagination .pageButton:hover:not(.inactive):not(:disabled),
 .pagination .pageNumber:hover:not(.inactive):not(:disabled) {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--pagination-hover-background-color);
+  color: var(--pagination-hover-text-color);
 }
 
 .pagination .inactive,
 .pagination .pageButton:disabled,
 .pagination .pageNumber:disabled {
-  background-color: #e9ecef;
+  background-color: var(--pagination-disabled-background-color);
+  color: var(--pagination-disabled-text-color);
   cursor: not-allowed;
 }
 
@@ -32,4 +36,5 @@
   align-items: center;
   padding: 0 10px;
   cursor: default;
+  color: var(--pagination-text-color);
 }
