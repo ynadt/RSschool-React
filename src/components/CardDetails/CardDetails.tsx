@@ -11,7 +11,7 @@ interface ItemDetailsProps {
 const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
   const { data, error, isLoading } = useGetAnimeDetailsQuery(id);
 
-  if (!data) return <Loader isLoading={isLoading} error={error as ApiError} />;
+  if (isLoading || !data) return <Loader isLoading={isLoading} error={error as ApiError} />;
 
   const item: Anime = data.data;
 

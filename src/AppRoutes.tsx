@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import App from './App';
-import NotFound from '@components/NotFound/NotFound.tsx';
+import Loader from '@components/Loader/Loader.tsx';
+
+const App = lazy(() => import('./App'));
+const NotFound = lazy(() => import('@components/NotFound/NotFound.tsx'));
+
+const routeConfig = [
+  { path: '/', component: <App />, key: 'home' },
+  { path: '*', component: <NotFound />, key: 'notFound' },
+];
 
 const AppRoutes: React.FC = () => {
   return (
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Suspense fallback={<Loader isLoading={true} error={null} />}>
+      <Routes>
+        {routeConfig.map((route) => (
+          <Route path={route.path} element={route.component} key={route.key} />
+        ))}
+      </Routes>
+    </Suspense>
   );
 };
 

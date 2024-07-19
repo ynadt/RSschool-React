@@ -5,7 +5,8 @@
   margin-top: 20px;
 }
 
-.pagination button {
+.pagination .pageButton,
+.pagination .pageNumber {
   padding: 5px 10px;
   border: 1px solid #dee2e6;
   background-color: #f8f9fa;
@@ -13,19 +14,22 @@
   transition: background-color 0.3s;
 }
 
-.pagination button:hover:not(.inactive):not(:disabled) {
+.pagination .pageButton:hover:not(.inactive):not(:disabled),
+.pagination .pageNumber:hover:not(.inactive):not(:disabled) {
   background-color: #007bff;
   color: white;
 }
 
-.pagination button.inactive,
-.pagination button:disabled {
+.pagination .inactive,
+.pagination .pageButton:disabled,
+.pagination .pageNumber:disabled {
   background-color: #e9ecef;
   cursor: not-allowed;
 }
 
-.ellipsis {
+.pagination .ellipsis {
   display: flex;
   align-items: center;
   padding: 0 10px;
+  cursor: default;
 }

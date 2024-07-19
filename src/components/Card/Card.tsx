@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './Card.module.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,19 +19,22 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis }) => {
   const favorites = useSelector(selectFavorites);
   const isFavorite = favorites.some((item) => item.mal_id === mal_id);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     const page = searchParams.get('page') || '1';
     navigate(`/?page=${page}&details=${mal_id}`);
-  };
+  }, [navigate, searchParams, mal_id]);
 
-  const handleAddFavorite = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (isFavorite) {
-      dispatch(removeFavorite({ mal_id }));
-    } else {
-      dispatch(addFavorite({ mal_id, title, synopsis }));
-    }
-  };
+  const handleAddFavorite = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      if (isFavorite) {
+        dispatch(removeFavorite({ mal_id }));
+      } else {
+        dispatch(addFavorite({ mal_id, title, synopsis }));
+      }
+    },
+    [dispatch, isFavorite, mal_id, synopsis, title],
+  );
 
   return (
     <div className={`${styles.card} card`} onClick={handleClick}>

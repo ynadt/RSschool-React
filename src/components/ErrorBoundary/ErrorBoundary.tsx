@@ -1,5 +1,7 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import styles from './ErrorBoundary.module.css';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.tsx';
+import { ApiError } from '@/types/types.ts';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -7,16 +9,17 @@ interface ErrorBoundaryProps {
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  error: ApiError | null;
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: ApiError): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -28,6 +31,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       return (
         <div className={styles.errorBoundary}>
           <h1>Something went wrong.</h1>
+          <ErrorMessage error={this.state.error} />
           <button onClick={() => window.location.reload()}>Try Again</button>
         </div>
       );

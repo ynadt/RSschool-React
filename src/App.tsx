@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import './App.css';
 import Search from '@components/Search/Search.tsx';
 import CardList from '@components/CardList/CardList.tsx';
@@ -26,26 +26,29 @@ const App: React.FC = () => {
     setSearchParams({ page: '1' });
   };
 
-  const throwError = () => {
+  const throwError = useCallback(() => {
     throw new Error('Test error');
-  };
+  }, []);
 
-  const handleCloseDetails = () => {
+  const handleCloseDetails = useCallback(() => {
     setSearchParams({ page: searchParams.get('page') || '1' });
-  };
+  }, [setSearchParams, searchParams]);
 
-  const handleCardListClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!(event.target instanceof HTMLElement)) return;
-    const card = event.target.closest('.card');
-    const paginationButton = event.target.closest('.pagination button');
-    const paginationEllipsis = event.target.closest('.pagination span');
-    if (!card && !(paginationButton || paginationEllipsis) && details) {
-      handleCloseDetails();
-    }
-  };
+  const handleCardListClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      const card = event.target.closest('.card');
+      const paginationButton = event.target.closest('.pagination button');
+      const paginationEllipsis = event.target.closest('.pagination span');
+      if (!card && !(paginationButton || paginationEllipsis) && details) {
+        handleCloseDetails();
+      }
+    },
+    [details, handleCloseDetails],
+  );
 
-  const results = data?.data || [];
-  const totalItems = data?.pagination.items.total || 0;
+  const results = useMemo(() => data?.data || [], [data]);
+  const totalItems = useMemo(() => data?.pagination.items.total || 0, [data]);
 
   return (
     <div className="App">
@@ -53,7 +56,7 @@ const App: React.FC = () => {
         <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
       </div>
       <div className="content-section">
-        {isLoading ? (
+        {isLoading || error ? (
           <Loader isLoading={isLoading} error={error as ApiError} />
         ) : (
           <div className="results-layout">

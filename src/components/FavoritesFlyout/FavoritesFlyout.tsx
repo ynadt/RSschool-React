@@ -1,28 +1,24 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store.ts';
 import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { saveAs } from 'file-saver';
+import { generateCSVContent } from '@/utils/csvUtils';
 import styles from './FavoritesFlyout.module.css';
 
 const FavoritesFlyout: React.FC = () => {
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.favorites);
 
-  const handleRemoveAll = () => {
+  const handleRemoveAll = useCallback(() => {
     dispatch(removeAllFavorites());
-  };
+  }, [dispatch]);
 
-  const handleDownload = () => {
-    const csvContent =
-      'mal_id,title,synopsis,details_url\n' +
-      favorites
-        .map((fav) => `${fav.mal_id},"${fav.title}","${fav.synopsis}","https://myanimelist.net/anime/${fav.mal_id}"`)
-        .join('\n');
-
+  const handleDownload = useCallback(() => {
+    const csvContent = generateCSVContent(favorites);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, `${favorites.length}_favorites.csv`);
-  };
+  }, [favorites]);
 
   if (favorites.length === 0) return null;
 

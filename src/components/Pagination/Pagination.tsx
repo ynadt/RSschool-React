@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalPages = useMemo(() => Math.ceil(totalItems / itemsPerPage), [totalItems, itemsPerPage]);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -23,37 +23,29 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   };
 
   const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const maxPageNumbersToShow = 5;
-    let startPage = Math.max(currentPage - Math.floor(maxPageNumbersToShow / 2), 1);
-    const endPage = Math.min(startPage + maxPageNumbersToShow - 1, totalPages);
+    const pageNumbers = Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+      const pageNumber = i + Math.max(currentPage - Math.floor(5 / 2), 1);
+      return (
+        <button
+          key={pageNumber}
+          className={`${styles.pageNumber} ${currentPage === pageNumber ? styles.inactive : ''}`}
+          onClick={() => handlePageChange(pageNumber)}
+          disabled={currentPage === pageNumber}
+        >
+          {pageNumber}
+        </button>
+      );
+    });
 
-    if (endPage - startPage + 1 < maxPageNumbersToShow) {
-      startPage = Math.max(endPage - maxPageNumbersToShow + 1, 1);
-    }
-
-    if (startPage > 1) {
-      pageNumbers.push(
+    if (currentPage > 3) {
+      pageNumbers.unshift(
         <span key="start-ellipsis" className={styles.ellipsis}>
           ...
         </span>,
       );
     }
 
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <button
-          key={i}
-          className={currentPage === i ? styles.inactive : ''}
-          onClick={() => handlePageChange(i)}
-          disabled={currentPage === i}
-        >
-          {i}
-        </button>,
-      );
-    }
-
-    if (endPage < totalPages) {
+    if (currentPage < totalPages - 2) {
       pageNumbers.push(
         <span key="end-ellipsis" className={styles.ellipsis}>
           ...
@@ -67,7 +59,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   return (
     <div className={`${styles.pagination} pagination`}>
       <button
-        className={currentPage === 1 ? styles.inactive : ''}
+        className={`${styles.pageButton} ${currentPage === 1 ? styles.inactive : ''}`}
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
       >
@@ -75,7 +67,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
       </button>
       {renderPageNumbers()}
       <button
-        className={currentPage === totalPages || totalItems === 0 ? styles.inactive : ''}
+        className={`${styles.pageButton} ${currentPage === totalPages || totalItems === 0 ? styles.inactive : ''}`}
         disabled={currentPage === totalPages || totalItems === 0}
         onClick={() => handlePageChange(currentPage + 1)}
       >
