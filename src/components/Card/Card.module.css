@@ -4,6 +4,20 @@
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardContent {
+  flex: 1;
+  padding-right: 10px;
+}
+
+.card img {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
 }
 
 .card h3 {
@@ -17,7 +31,7 @@
 .favoriteIcon {
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
   font-size: 20px;
   cursor: pointer;
 }
@@ -33,10 +47,4 @@
 
 .filledStar {
   color: rgba(73, 77, 100, 0.84);
-}
-
-.cardList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }

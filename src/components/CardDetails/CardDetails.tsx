@@ -15,7 +15,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
 
   const item: Anime = data.data;
 
-  const imageUrl = item.images?.jpg?.large_image_url;
+  const imageUrl = item.images?.webp?.large_image_url || item.images?.jpg?.large_image_url;
   const genres = item.genres?.map((genre) => genre.name).join(', ');
 
   return (

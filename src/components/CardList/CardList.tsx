@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from '../Card/Card.tsx';
-import styles from '../Card/Card.module.css';
+import styles from './CardList.module.css';
 
 interface CardListProps {
-  results: Array<{ mal_id: number; title: string; synopsis: string }>;
+  results: Array<{ mal_id: number; title: string; synopsis: string; images: { webp?: { image_url: string } } }>;
 }
 
 const CardList: React.FC<CardListProps> = ({ results }) => {
@@ -14,7 +14,13 @@ const CardList: React.FC<CardListProps> = ({ results }) => {
   return (
     <div className={styles.cardList}>
       {results.map((item, index) => (
-        <Card key={`${item.mal_id}-${index}`} mal_id={item.mal_id} title={item.title} synopsis={item.synopsis} />
+        <Card
+          key={`${item.mal_id}-${index}`}
+          mal_id={item.mal_id}
+          title={item.title}
+          synopsis={item.synopsis || 'No synopsis available'}
+          image_url={item.images.webp?.image_url}
+        />
       ))}
     </div>
   );

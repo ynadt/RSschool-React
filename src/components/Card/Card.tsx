@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addFavorite, removeFavorite, selectFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
+import { truncateText } from '@/utils/truncateTextUtils.ts';
 
 interface CardProps {
   mal_id: number;
   title: string;
   synopsis: string;
+  image_url?: string;
 }
 
-const Card: React.FC<CardProps> = ({ mal_id, title, synopsis }) => {
+const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -38,8 +40,11 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis }) => {
 
   return (
     <div className={`${styles.card} card`} onClick={handleClick}>
-      <h3>{title}</h3>
-      <p>{synopsis}</p>
+      <div className={styles.cardContent}>
+        <h3>{title}</h3>
+        <p>{truncateText(synopsis, 400)}</p>
+      </div>
+      {image_url && <img src={image_url} alt={title} />}
       <div
         className={styles.favoriteIcon}
         onClick={handleAddFavorite}
