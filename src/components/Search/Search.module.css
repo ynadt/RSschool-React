@@ -1,0 +1,14 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search input {
+  flex: 1;
+  padding: 5px;
+}
+
+.search button {
+  padding: 5px 10px;
+}

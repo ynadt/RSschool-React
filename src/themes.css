@@ -1,0 +1,18 @@
+.App.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+.App.dark {
+  --background-color: #000000;
+  --text-color: #ffffff;
+}
+
+.App {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-selector {
+  margin-bottom: 20px;
+}

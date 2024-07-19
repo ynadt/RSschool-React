@@ -1,0 +1,55 @@
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.theme-toggle-checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.theme-toggle-checkbox-label {
+  background-color: rgba(73, 77, 100, 0.84);
+  width: 50px;
+  height: 26px;
+  border-radius: 50px;
+  border: #dee2e6 1px solid;
+  position: relative;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-toggle-checkbox-label svg {
+  width: 16px;
+  height: 16px;
+  z-index: 9;
+  color: rgba(255, 215, 0, 0.84);
+}
+
+.theme-toggle-checkbox-label .ball {
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+  z-index: 10;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-checkbox-label .ball {
+  transform: translateX(24px);
+}
+
+.theme-toggle-checkbox-label .fa-moon {
+  color: #e7eaef;
+}
+
+.theme-toggle-checkbox-label .fa-sun {
+  color: rgba(255, 215, 0, 0.94);
+}

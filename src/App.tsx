@@ -12,6 +12,7 @@ import Loader from '@components/Loader/Loader.tsx';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import { ApiError } from './types/types.ts';
+import { useTheme } from '@/context/ThemeContext.tsx';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
@@ -20,6 +21,7 @@ const App: React.FC = () => {
   const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
 
   const { data, error, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
+  const { theme } = useTheme();
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -51,7 +53,7 @@ const App: React.FC = () => {
   const totalItems = useMemo(() => data?.pagination.items.total || 0, [data]);
 
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <div className="search-section">
         <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
       </div>

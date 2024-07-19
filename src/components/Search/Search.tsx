@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import ThemeSelector from '../ThemeSelector/ThemeSelector.tsx';
+import './Search.module.css';
 
 interface SearchProps {
   onSearch: (term: string) => void;
@@ -28,6 +30,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialTerm, throwError }) =>
       <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
       <button onClick={handleSearch}>Search</button>
       <button onClick={throwError}>Throw Error</button>
+      <ThemeSelector />
     </div>
   );
 };
