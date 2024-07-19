@@ -6,9 +6,10 @@ import Loader from '../Loader/Loader.tsx';
 
 interface ItemDetailsProps {
   id: string;
+  onClose: () => void;
 }
 
-const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
+const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   const { data, error, isLoading } = useGetAnimeDetailsQuery(id);
 
   if (isLoading || !data) return <Loader isLoading={isLoading} error={error as ApiError} />;
@@ -20,6 +21,9 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id }) => {
 
   return (
     <div className={styles.itemDetails}>
+      <button className={styles.closeButton} onClick={onClose}>
+        Close
+      </button>
       <h2>{item.title}</h2>
       {imageUrl && <img src={imageUrl} alt={item.title} />}
       <p>

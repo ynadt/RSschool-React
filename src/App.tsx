@@ -71,10 +71,7 @@ const App: React.FC = () => {
             </div>
             {results.length > 0 && details && (
               <div className="details-section">
-                <button className="close-button" onClick={handleCloseDetails}>
-                  Close
-                </button>
-                <CardDetails id={details} />
+                <CardDetails id={details} onClose={handleCloseDetails} />
               </div>
             )}
           </div>

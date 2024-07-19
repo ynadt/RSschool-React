@@ -15,6 +15,9 @@
   --unfilled-star-color: gray;
   --filled-star-color: rgba(70, 86, 181, 0.84);
 
+  --card-details-background-color: #fff;
+  --card-details-text-color: #000;
+
   --pagination-border-color: #dee2e6;
   --pagination-background-color: #f8f9fa;
   --pagination-text-color: #000000;
@@ -37,6 +40,10 @@
   --theme-toggle-ball-background-color: #fff;
   --theme-toggle-moon-color: #e7eaef;
   --theme-toggle-sun-color: rgba(255, 215, 0, 0.94);
+
+  --scrollbar-bg-color: #e0e0e0;
+  --scrollbar-thumb-color: #a0a0a0;
+  --scrollbar-thumb-hover-color: #888888;
 }
 
 body[data-theme='dark'] {
@@ -55,6 +62,9 @@ body[data-theme='dark'] {
   --favorite-icon-hover-color: lightgray;
   --unfilled-star-color: lightgray;
   --filled-star-color: #84a2d5;
+
+  --card-details-background-color: #333;
+  --card-details-text-color: #fff;
 
   --pagination-border-color: #444444;
   --pagination-background-color: #333333;
@@ -78,4 +88,8 @@ body[data-theme='dark'] {
   --theme-toggle-ball-background-color: #84a2d5;
   --theme-toggle-moon-color: #c7cace;
   --theme-toggle-sun-color: rgba(255, 235, 0, 0.94);
+
+  --scrollbar-bg-color: #333333;
+  --scrollbar-thumb-color: #555555;
+  --scrollbar-thumb-hover-color: #777777;
 }
