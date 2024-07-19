@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import { removeAllFavorites } from '../redux/slices/favoritesSlice';
+import { RootState } from '@/redux/store.ts';
+import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { saveAs } from 'file-saver';
 import styles from './FavoritesFlyout.module.css';
 

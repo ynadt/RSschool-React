@@ -1,5 +1,5 @@
 import { customRender as render, screen } from './setupTests';
-import CardList from '../src/components/CardList';
+import CardList from '@components/CardList/CardList.tsx';
 
 describe('CardList component', () => {
   const mockResults = [

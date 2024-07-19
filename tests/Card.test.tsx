@@ -1,7 +1,7 @@
 import { customRender as render, screen } from './setupTests';
-import Card from '../src/components/Card';
+import Card from '@components/Card/Card.tsx';
 import { userEvent } from '@testing-library/user-event';
-import styles from '../src/components/Card.module.css';
+import styles from '@components/Card/Card.module.css';
 
 describe('Card component', () => {
   const mockCardData = { mal_id: 1, title: 'Title 1', synopsis: 'Synopsis 1' };

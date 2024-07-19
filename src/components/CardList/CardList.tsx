@@ -1,13 +1,13 @@
 import React from 'react';
-import Card from './Card';
-import styles from './Card.module.css';
+import Card from '../Card/Card.tsx';
+import styles from '../Card/Card.module.css';
 
 interface CardListProps {
   results: Array<{ mal_id: number; title: string; synopsis: string }>;
 }
 
 const CardList: React.FC<CardListProps> = ({ results }) => {
-  if (results.length === 0) {
+  if (!Array.isArray(results) || results.length === 0) {
     return <p>Oops, nothing is found.</p>;
   }
 

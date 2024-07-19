@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
 import styles from './Pagination.module.css';
 
 interface PaginationProps {
@@ -12,10 +14,12 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
   const handlePageChange = (page: number) => {
     searchParams.set('page', page.toString());
     navigate(`?${searchParams.toString()}`);
+    dispatch(setCurrentPage(page));
   };
 
   const renderPageNumbers = () => {

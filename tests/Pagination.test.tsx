@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Pagination from '../src/components/Pagination';
+import Pagination from '@components/Pagination/Pagination.tsx';
 import { userEvent } from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';

@@ -1,56 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import Search from './components/Search';
-import CardList from './components/CardList';
-import Pagination from './components/Pagination';
+import Search from '@components/Search/Search.tsx';
+import CardList from '@components/CardList/CardList.tsx';
+import Pagination from '@components/Pagination/Pagination.tsx';
 import useSearchTerm from './hooks/useSearchTerm';
 import { useSearchParams } from 'react-router-dom';
-import CardDetails from './components/CardDetails';
-import FavoritesFlyout from './components/FavoritesFlyout';
+import CardDetails from '@components/CardDetails/CardDetails.tsx';
+import { useGetAnimeListQuery } from './redux/services/apiSlice';
+import FavoritesFlyout from '@components/FavoritesFlyout/FavoritesFlyout.tsx';
+import Loader from '@components/Loader/Loader.tsx';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/store';
+import { ApiError } from './types/types.ts';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
-  const [results, setResults] = useState<Array<{ mal_id: number; title: string; synopsis: string }>>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [shouldThrowError, setShouldThrowError] = useState(false);
-  const [totalItems, setTotalItems] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const page = parseInt(searchParams.get('page') || '1', 10);
   const details = searchParams.get('details');
-  const itemsPerPage = 25;
+  const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
 
-  useEffect(() => {
-    fetchResults(searchTerm, page);
-  }, [searchTerm, page]);
-
-  const fetchResults = (term: string, page: number) => {
-    setLoading(true);
-    setError(null);
-
-    const apiEndpoint = term
-      ? `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(term)}&page=${page}`
-      : `https://api.jikan.moe/v4/anime?page=${page}`;
-
-    fetch(apiEndpoint)
-      .then((response) => response.json())
-      .then((data) => {
-        const results = (data.data || []).map((item: { mal_id: number; title: string; synopsis: string }) => ({
-          mal_id: item.mal_id,
-          title: item.title,
-          synopsis: item.synopsis,
-        }));
-        setResults(results);
-        setTotalItems(data.pagination.items.total);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching results', error);
-        setError(error);
-        setLoading(false);
-      });
-  };
+  const { data, error, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -58,7 +27,7 @@ const App: React.FC = () => {
   };
 
   const throwError = () => {
-    setShouldThrowError(true);
+    throw new Error('Test error');
   };
 
   const handleCloseDetails = () => {
@@ -75,9 +44,8 @@ const App: React.FC = () => {
     }
   };
 
-  if (shouldThrowError) {
-    throw new Error('Test error');
-  }
+  const results = data?.data || [];
+  const totalItems = data?.pagination.items.total || 0;
 
   return (
     <div className="App">
@@ -85,10 +53,8 @@ const App: React.FC = () => {
         <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
       </div>
       <div className="content-section">
-        {loading ? (
-          <p className="loader">Loading...</p>
-        ) : error ? (
-          <p className="error">Error: {error.message}</p>
+        {isLoading ? (
+          <Loader isLoading={isLoading} error={error as ApiError} />
         ) : (
           <div className="results-layout">
             <div
@@ -96,9 +62,7 @@ const App: React.FC = () => {
               onClick={handleCardListClick}
             >
               <CardList results={results} />
-              {results.length > 0 && (
-                <Pagination currentPage={page} totalItems={totalItems} itemsPerPage={itemsPerPage} />
-              )}
+              {results.length > 0 && <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={25} />}
             </div>
             {results.length > 0 && details && (
               <div className="details-section">

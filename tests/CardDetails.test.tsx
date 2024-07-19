@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import CardDetails from '../src/components/CardDetails';
+import CardDetails from '@components/CardDetails/CardDetails.tsx';
 import { vi } from 'vitest';
 
 // Mock data for the API response

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Search from '../src/components/Search';
+import Search from '@components/Search/Search.tsx';
 import { vi } from 'vitest';
 
 describe('Search component', () => {
