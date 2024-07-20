@@ -9,16 +9,18 @@ import CardDetails from '@components/CardDetails/CardDetails.tsx';
 import { useGetAnimeListQuery } from './redux/services/apiSlice';
 import FavoritesFlyout from '@components/FavoritesFlyout/FavoritesFlyout.tsx';
 import Loader from '@components/Loader/Loader.tsx';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/store';
 import { ApiError } from './types/types.ts';
 import { useTheme } from '@/context/ThemeContext.tsx';
+import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
   const [searchParams, setSearchParams] = useSearchParams();
   const details = searchParams.get('details');
   const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
+  const dispatch = useDispatch();
 
   const { data, error, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
   const { theme } = useTheme();
@@ -26,6 +28,7 @@ const App: React.FC = () => {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setSearchParams({ page: '1' });
+    dispatch(setCurrentPage(1));
   };
 
   const throwError = useCallback(() => {
