@@ -1,7 +1,7 @@
 .favoritesFlyout {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
-  right: 10px;
+  right: 40px;
   background-color: var(--favorites-flyout-background-color);
   border: 1px solid var(--favorites-flyout-border-color);
   border-radius: 5px;

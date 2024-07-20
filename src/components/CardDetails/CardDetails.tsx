@@ -20,7 +20,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   const genres = item.genres?.map((genre) => genre.name).join(', ');
 
   return (
-    <div className={styles.itemDetails}>
+    <div className={styles.cardDetails}>
       <button className={styles.closeButton} onClick={onClose}>
         Close
       </button>

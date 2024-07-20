@@ -27,7 +27,13 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialTerm, throwError }) =>
 
   return (
     <div className={styles.search}>
-      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <input
+        type="text"
+        value={searchTerm}
+        placeholder={'Search for anime'}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
       <button onClick={handleSearch}>Search</button>
       <button onClick={throwError}>Throw Error</button>
       <ThemeSelector />
