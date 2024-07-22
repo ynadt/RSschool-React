@@ -23,29 +23,32 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   };
 
   const renderPageNumbers = () => {
-    const pageNumbers = Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-      const pageNumber = i + Math.max(currentPage - Math.floor(5 / 2), 1);
-      return (
-        <button
-          key={pageNumber}
-          className={`${styles.pageNumber} ${currentPage === pageNumber ? styles.inactive : ''}`}
-          onClick={() => handlePageChange(pageNumber)}
-          disabled={currentPage === pageNumber}
-        >
-          {pageNumber}
-        </button>
-      );
-    });
+    const pageNumbers = [];
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
 
-    if (currentPage > 3) {
-      pageNumbers.unshift(
+    if (startPage > 1) {
+      pageNumbers.push(
         <span key="start-ellipsis" className={styles.ellipsis}>
           ...
         </span>,
       );
     }
 
-    if (currentPage < totalPages - 2) {
+    for (let page = startPage; page <= endPage; page++) {
+      pageNumbers.push(
+        <button
+          key={page}
+          className={`${styles.pageNumber} ${currentPage === page ? styles.inactive : ''}`}
+          onClick={() => handlePageChange(page)}
+          disabled={currentPage === page}
+        >
+          {page}
+        </button>,
+      );
+    }
+
+    if (endPage < totalPages) {
       pageNumbers.push(
         <span key="end-ellipsis" className={styles.ellipsis}>
           ...
