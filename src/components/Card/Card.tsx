@@ -12,9 +12,10 @@ interface CardProps {
   title: string;
   synopsis: string;
   image_url?: string;
+  isActive: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url }) => {
+const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActive }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url }) => {
   );
 
   return (
-    <div className={`${styles.card} card`} onClick={handleClick}>
+    <div className={`${styles.card} card ${isActive ? styles.active : ''}`} onClick={handleClick}>
       <div className={styles.cardContent}>
         <h3>{title}</h3>
         <p>{truncateText(synopsis, 400)}</p>

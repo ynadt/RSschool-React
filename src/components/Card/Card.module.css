@@ -9,6 +9,15 @@
   align-items: center;
   background-color: var(--card-background-color);
   color: var(--card-text-color);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.active {
+  background-color: var(--active-card-background-color);
 }
 
 .cardContent {

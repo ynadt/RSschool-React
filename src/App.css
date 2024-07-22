@@ -26,7 +26,6 @@ body {
 }
 
 .search-section {
-  min-width: 95vw;
   padding: 10px 20px;
   background-color: var(--search-background-color);
   border-bottom: 1px solid var(--button-background-color);

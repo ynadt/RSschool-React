@@ -11,6 +11,7 @@
 
   --card-border-color: #dee2e6;
   --card-background-color: #ffffff;
+  --active-card-background-color: rgba(140, 148, 195, 0.32);
   --card-text-color: #000000;
   --favorite-icon-hover-color: darkgray;
   --unfilled-star-color: gray;
@@ -60,6 +61,7 @@ body[data-theme='dark'] {
 
   --card-border-color: #444444;
   --card-background-color: #333333;
+  --active-card-background-color: #37474f;
   --card-text-color: #ffffff;
   --favorite-icon-hover-color: lightgray;
   --unfilled-star-color: lightgray;

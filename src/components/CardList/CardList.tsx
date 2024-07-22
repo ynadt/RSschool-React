@@ -4,9 +4,10 @@ import styles from './CardList.module.css';
 
 interface CardListProps {
   results: Array<{ mal_id: number; title: string; synopsis: string; images: { webp?: { image_url: string } } }>;
+  details: string | null;
 }
 
-const CardList: React.FC<CardListProps> = ({ results }) => {
+const CardList: React.FC<CardListProps> = ({ results, details }) => {
   if (!Array.isArray(results) || results.length === 0) {
     return <p>Oops, nothing is found.</p>;
   }
@@ -20,6 +21,7 @@ const CardList: React.FC<CardListProps> = ({ results }) => {
           title={item.title}
           synopsis={item.synopsis || 'No synopsis available'}
           image_url={item.images.webp?.image_url}
+          isActive={details === item.mal_id.toString()}
         />
       ))}
     </div>

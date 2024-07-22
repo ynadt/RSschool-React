@@ -69,7 +69,7 @@ const App: React.FC = () => {
               className={`results-section ${results.length === 0 ? 'no-results' : ''}`}
               onClick={handleCardListClick}
             >
-              <CardList results={results} />
+              <CardList results={results} details={details} />
               {results.length > 0 && <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={25} />}
             </div>
             {results.length > 0 && details && (
