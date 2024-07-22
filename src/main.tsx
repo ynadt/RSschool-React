@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './themes.css';
-import ErrorBoundary from '@components/ErrorBoundary/ErrorBoundary.tsx';
+import ErrorBoundaryWithTheme from '@components/ErrorBoundary/ErrorBoundary.tsx';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import AppRoutes from './AppRoutes';
@@ -15,13 +15,13 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <ErrorBoundary>
-          <ThemeProvider>
-            <BrowserRouter>
+        <ThemeProvider>
+          <BrowserRouter>
+            <ErrorBoundaryWithTheme>
               <AppRoutes />
-            </BrowserRouter>
-          </ThemeProvider>
-        </ErrorBoundary>
+            </ErrorBoundaryWithTheme>
+          </BrowserRouter>
+        </ThemeProvider>
       </Provider>
     </React.StrictMode>,
   );

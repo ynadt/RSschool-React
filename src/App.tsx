@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './App.css';
 import Search from '@components/Search/Search.tsx';
 import CardList from '@components/CardList/CardList.tsx';
@@ -21,8 +21,9 @@ const App: React.FC = () => {
   const details = searchParams.get('details');
   const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
   const dispatch = useDispatch();
+  const [error, setError] = useState<Error | null>(null);
 
-  const { data, error, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
+  const { data, error: apiError, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
   const { theme } = useTheme();
 
   const handleSearch = (term: string) => {
@@ -32,7 +33,7 @@ const App: React.FC = () => {
   };
 
   const throwError = useCallback(() => {
-    throw new Error('Test error');
+    setError(new Error('Test error'));
   }, []);
 
   const handleCloseDetails = useCallback(() => {
@@ -55,14 +56,18 @@ const App: React.FC = () => {
   const results = useMemo(() => data?.data || [], [data]);
   const totalItems = useMemo(() => data?.pagination.items.total || 0, [data]);
 
+  if (error) {
+    throw error;
+  }
+
   return (
     <div className={`App ${theme}`}>
       <div className="search-section">
         <Search onSearch={handleSearch} initialTerm={searchTerm} throwError={throwError} />
       </div>
       <div className="content-section">
-        {isLoading || error ? (
-          <Loader isLoading={isLoading} error={error as ApiError} />
+        {isLoading || apiError ? (
+          <Loader isLoading={isLoading} error={apiError as ApiError} />
         ) : (
           <div className="results-layout">
             <div

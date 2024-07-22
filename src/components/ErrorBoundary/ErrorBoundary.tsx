@@ -1,7 +1,9 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import styles from './ErrorBoundary.module.css';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.tsx';
-import { ApiError } from '@/types/types.ts';
+import { useTheme } from '@/context/ThemeContext.tsx';
+import { ApiError, ApiJsonErrorResponse } from '@/types/types.ts';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -12,8 +14,8 @@ interface ErrorBoundaryState {
   error: ApiError | null;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends React.Component<ErrorBoundaryProps & { theme: string }, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps & { theme: string }) {
     super(props);
     this.state = { hasError: false, error: null };
   }
@@ -27,18 +29,32 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   render() {
+    const { theme, children } = this.props;
     if (this.state.hasError) {
+      const errorMessage =
+        (this.state.error as SerializedError)?.message ||
+        (this.state.error as ApiJsonErrorResponse)?.message ||
+        (this.state.error as FetchBaseQueryError)?.status ||
+        'An unexpected error occurred';
+
       return (
-        <div className={styles.errorBoundary}>
+        <div className={`${styles.errorBoundary} ${styles[theme]}`}>
           <h1>Something went wrong.</h1>
-          <ErrorMessage error={this.state.error} />
-          <button onClick={() => window.location.reload()}>Try Again</button>
+          <p className={styles.errorMessage}>{errorMessage}</p>
+          <button className={`${styles.errorButton} ${styles[theme]}`} onClick={() => window.location.reload()}>
+            Try Again
+          </button>
         </div>
       );
     }
 
-    return this.props.children;
+    return children;
   }
 }
 
-export default ErrorBoundary;
+const ErrorBoundaryWithTheme: React.FC<ErrorBoundaryProps> = ({ children }) => {
+  const { theme } = useTheme();
+  return <ErrorBoundary theme={theme}>{children}</ErrorBoundary>;
+};
+
+export default ErrorBoundaryWithTheme;
