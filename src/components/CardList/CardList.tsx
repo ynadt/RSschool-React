@@ -7,13 +7,13 @@ interface CardListProps {
   details: string | null;
 }
 
-const CardList: React.FC<CardListProps> = ({ results, details }) => {
+const CardList = React.forwardRef<HTMLDivElement, CardListProps>(({ results, details }, ref) => {
   if (!Array.isArray(results) || results.length === 0) {
     return <p>Oops, nothing is found.</p>;
   }
 
   return (
-    <div className={styles.cardList}>
+    <div className={styles.cardList} ref={ref}>
       {results.map((item, index) => (
         <Card
           key={`${item.mal_id}-${index}`}
@@ -26,6 +26,8 @@ const CardList: React.FC<CardListProps> = ({ results, details }) => {
       ))}
     </div>
   );
-};
+});
+
+CardList.displayName = 'CardList';
 
 export default CardList;

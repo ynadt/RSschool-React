@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import './App.css';
 import Search from '@components/Search/Search.tsx';
 import CardList from '@components/CardList/CardList.tsx';
@@ -22,6 +22,8 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
   const [error, setError] = useState<Error | null>(null);
+  const cardListRef = useRef<HTMLDivElement>(null);
+  const [lastPage, setLastPage] = useState(currentPage);
 
   const { data, error: apiError, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
   const { theme } = useTheme();
@@ -63,6 +65,13 @@ const App: React.FC = () => {
   const results = useMemo(() => data?.data || [], [data]);
   const totalItems = useMemo(() => data?.pagination.items.total || 0, [data]);
 
+  useEffect(() => {
+    if (cardListRef.current && lastPage !== currentPage) {
+      cardListRef.current.scrollTo(0, 0);
+      setLastPage(currentPage);
+    }
+  }, [currentPage, lastPage]);
+
   if (error) {
     throw error;
   }
@@ -80,6 +89,7 @@ const App: React.FC = () => {
             <div
               className={`results-section ${results.length === 0 ? 'no-results' : ''}`}
               onClick={handleCardListClick}
+              ref={cardListRef}
             >
               <CardList results={results} details={details} />
               {results.length > 0 && <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={25} />}
