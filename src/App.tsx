@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import './App.css';
 import Search from '@components/Search/Search.tsx';
 import CardList from '@components/CardList/CardList.tsx';
@@ -19,12 +19,19 @@ const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
   const [searchParams, setSearchParams] = useSearchParams();
   const details = searchParams.get('details');
-  const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
   const dispatch = useDispatch();
+  const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
   const [error, setError] = useState<Error | null>(null);
 
   const { data, error: apiError, isLoading } = useGetAnimeListQuery({ term: searchTerm, page: currentPage });
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const page = searchParams.get('page');
+    if (page) {
+      dispatch(setCurrentPage(Number(page)));
+    }
+  }, [searchParams, dispatch]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);

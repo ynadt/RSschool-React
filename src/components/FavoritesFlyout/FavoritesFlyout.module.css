@@ -5,7 +5,7 @@
   background-color: var(--favorites-flyout-background-color);
   border: 1px solid var(--favorites-flyout-border-color);
   border-radius: 5px;
-  padding: 10px;
+  padding: 20px 10px 10px 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: var(--favorites-flyout-text-color);
 }
@@ -14,7 +14,7 @@
   margin: 0 0 10px 0;
 }
 
-.favoritesFlyout button {
+.actionButton {
   margin-right: 10px;
   padding: 5px 10px;
   border: none;
@@ -27,7 +27,23 @@
     color 0.3s;
 }
 
-.favoritesFlyout button:hover {
+.actionButton:hover {
   background-color: var(--favorites-flyout-button-hover-background-color);
   color: var(--favorites-flyout-button-hover-text-color);
+}
+
+.closeButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--favorites-flyout-close-button-color);
+  transition: color 0.3s;
+}
+
+.closeButton:hover {
+  color: var(--favorites-flyout-close-button-hover-color);
 }

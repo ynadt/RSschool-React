@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store.ts';
 import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
@@ -9,6 +9,15 @@ import styles from './FavoritesFlyout.module.css';
 const FavoritesFlyout: React.FC = () => {
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.favorites);
+  const [showFlyout, setShowFlyout] = useState(favorites.length > 0);
+
+  useEffect(() => {
+    if (favorites.length > 0) {
+      setShowFlyout(true);
+    } else {
+      setShowFlyout(false);
+    }
+  }, [favorites.length]);
 
   const handleRemoveAll = useCallback(() => {
     dispatch(removeAllFavorites());
@@ -20,13 +29,20 @@ const FavoritesFlyout: React.FC = () => {
     saveAs(blob, `${favorites.length}_favorites.csv`);
   }, [favorites]);
 
-  if (favorites.length === 0) return null;
+  if (!showFlyout || favorites.length === 0) return null;
 
   return (
     <div className={styles.favoritesFlyout}>
+      <button className={styles.closeButton} onClick={() => setShowFlyout(false)}>
+        ×
+      </button>
       <p>{`${favorites.length} ${favorites.length === 1 ? 'anime is' : 'animes are'} in favorites`}</p>
-      <button onClick={handleRemoveAll}>Remove all</button>
-      <button onClick={handleDownload}>Download</button>
+      <button className={styles.actionButton} onClick={handleRemoveAll}>
+        Remove all
+      </button>
+      <button className={styles.actionButton} onClick={handleDownload}>
+        Download
+      </button>
     </div>
   );
 };

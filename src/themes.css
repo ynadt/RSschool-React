@@ -35,6 +35,8 @@
   --favorites-flyout-button-text-color: #ffffff;
   --favorites-flyout-button-hover-background-color: #0056b3;
   --favorites-flyout-button-hover-text-color: #ffffff;
+  --favorites-flyout-close-button-color: #ccc;
+  --favorites-flyout-close-button-hover-color: #ff0000;
 
   --theme-toggle-background-color: rgba(73, 77, 100, 0.84);
   --theme-toggle-border-color: rgba(121, 123, 163, 0.6);

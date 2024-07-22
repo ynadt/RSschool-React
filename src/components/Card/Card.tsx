@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styles from './Card.module.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,6 +38,15 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActiv
     },
     [dispatch, isFavorite, mal_id, synopsis, title],
   );
+
+  useEffect(() => {
+    if (!isFavorite && favorites.length > 0) {
+      const flyoutElement = document.querySelector(`.${styles.favoritesFlyout}`) as HTMLElement;
+      if (flyoutElement) {
+        flyoutElement.style.display = 'block';
+      }
+    }
+  }, [favorites.length, isFavorite]);
 
   return (
     <div className={`${styles.card} card ${isActive ? styles.active : ''}`} onClick={handleClick}>
