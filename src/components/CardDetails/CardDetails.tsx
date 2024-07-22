@@ -18,7 +18,9 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
     refetch().then(() => setLoading(false));
   }, [id, refetch]);
 
-  useEffect(() => {}, [id, isLoading, data]);
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   if (loading || isLoading) {
     return <Loader isLoading={true} error={error as ApiError} />;
@@ -52,24 +54,21 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
       <p>
         <strong>Rating:</strong> {item.rating}
       </p>
-      <p>
-        <strong>Score:</strong> {item.score} (scored by {item.scored_by} users)
-      </p>
+      {item.score && (
+        <p>
+          <strong>Score:</strong> {item.score} (scored by {item.scored_by} users)
+        </p>
+      )}
       <p>
         <strong>Genres:</strong> {genres || 'N/A'}
       </p>
       <p>{item.synopsis}</p>
-      {item.trailer?.embed_url && (
-        <div className={styles.trailer}>
-          <iframe
-            src={item.trailer.embed_url.replace('autoplay=1', 'autoplay=0')}
-            title="YouTube video player"
-            style={{ border: 0, width: '100%', height: '315px' }}
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
+      <p>
+        <strong>More Information:</strong>{' '}
+        <a href={item.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
+          Check it out on MyAnimeList
+        </a>
+      </p>
     </div>
   );
 };

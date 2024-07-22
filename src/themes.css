@@ -19,6 +19,8 @@
 
   --card-details-background-color: #fff;
   --card-details-text-color: #000;
+  --link-color: rgba(70, 86, 181, 0.91);
+  --link-color-hover: rgba(9, 42, 236, 0.91);
 
   --pagination-border-color: #dee2e6;
   --pagination-background-color: #f8f9fa;
@@ -71,6 +73,8 @@ body[data-theme='dark'] {
 
   --card-details-background-color: #333;
   --card-details-text-color: #fff;
+  --link-color: #84a2d5;
+  --link-color-hover: #c7cace;
 
   --pagination-border-color: #444444;
   --pagination-background-color: #333333;
