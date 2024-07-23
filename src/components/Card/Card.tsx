@@ -55,14 +55,15 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActiv
         <p>{truncateText(synopsis, 400)}</p>
       </div>
       {image_url && <img src={image_url} alt={title} />}
-      <div
+      <button
         className={styles.favoriteIcon}
         onClick={handleAddFavorite}
+        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         data-tooltip-id={`tooltip-${mal_id}`}
-        data-tooltip-content="Add to favorites"
+        data-tooltip-content={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
       >
         {isFavorite ? <FaStar className={styles.filledStar} /> : <FaRegStar className={styles.unfilledStar} />}
-      </div>
+      </button>
       <Tooltip id={`tooltip-${mal_id}`} place="top" />
     </div>
   );

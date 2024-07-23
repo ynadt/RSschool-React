@@ -21,6 +21,11 @@
   transition: background-color 0.3s;
 }
 
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
 .link {
   color: var(--link-color);
   text-decoration: none;
