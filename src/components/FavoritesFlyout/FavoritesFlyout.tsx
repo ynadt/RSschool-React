@@ -13,11 +13,7 @@ const FavoritesFlyout: React.FC = () => {
   const [showFlyout, setShowFlyout] = useState(favorites.length > 0);
 
   useEffect(() => {
-    if (favorites.length > 0) {
-      setShowFlyout(true);
-    } else {
-      setShowFlyout(false);
-    }
+    setShowFlyout(favorites.length > 0);
   }, [favorites.length]);
 
   const handleRemoveAll = useCallback(() => {
