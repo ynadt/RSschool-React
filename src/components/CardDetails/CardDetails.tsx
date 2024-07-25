@@ -34,6 +34,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   }
 
   const item: Anime = data.data;
+  const title = item.title_english || item.title;
 
   const imageUrl = item.images?.webp?.large_image_url || item.images?.jpg?.large_image_url;
   const genres = item.genres?.map((genre) => genre.name).join(', ');
@@ -43,8 +44,8 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
       <button className={styles.closeButton} onClick={onClose}>
         Close
       </button>
-      <h2>{item.title}</h2>
-      {imageUrl && <img src={imageUrl} alt={item.title} className={styles.image} />}
+      <h2>{title}</h2>
+      {imageUrl && <img src={imageUrl} alt={title} className={styles.image} />}
       <p>
         <strong>Type:</strong> {item.type}
       </p>
