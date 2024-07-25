@@ -1,12 +1,13 @@
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import AppRoutes from '@/AppRoutes';
-import { Provider } from 'react-redux';
-import store from '@/redux/store';
-import { ThemeProvider } from '@/context/ThemeContext';
-import { MemoryRouter } from 'react-router-dom';
-import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+
+import AppRoutes from '@/AppRoutes';
+import { ThemeProvider } from '@/context/ThemeContext';
+import store from '@/redux/store';
 
 const server = setupServer(
   http.get('https://api.jikan.moe/v4/anime', () => {

@@ -1,5 +1,6 @@
-import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+
 import Loader from '@components/Loader/Loader.tsx';
 
 const App = lazy(() => import('./App'));

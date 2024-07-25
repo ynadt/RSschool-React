@@ -1,13 +1,14 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
+
 import App from '@/App';
-import store from '@/redux/store';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { setupServer } from 'msw/node';
-import { http, HttpResponse } from 'msw';
+import store from '@/redux/store';
 
 const mockAnimeListResponse = {
   data: [

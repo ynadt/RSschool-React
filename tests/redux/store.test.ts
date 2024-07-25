@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { configureStore } from '@reduxjs/toolkit';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { apiSlice } from '@/redux/services/apiSlice';
 import currentPageReducer from '@/redux/slices/currentPageSlice';
 import favoritesReducer from '@/redux/slices/favoritesSlice';
-import { apiSlice } from '@/redux/services/apiSlice';
 import store, { RootState } from '@/redux/store';
 
 vi.mock('@reduxjs/toolkit/query', () => ({

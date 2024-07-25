@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
-import styles from './Card.module.css';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addFavorite, removeFavorite, selectFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { FaRegStar, FaStar } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
+
+import styles from './Card.module.css';
+import { addFavorite, removeFavorite, selectFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { truncateText } from '@/utils/truncateTextUtils.ts';
 
 interface CardProps {

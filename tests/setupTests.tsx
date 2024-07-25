@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom';
+
 import { render as rtlRender, RenderOptions } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { Provider } from 'react-redux';
+
 import store from '@/redux/store';
 
 // Mock ResizeObserver

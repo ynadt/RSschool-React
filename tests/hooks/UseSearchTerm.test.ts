@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import useSearchTerm from '@/hooks/useSearchTerm';
 import { act, renderHook } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+
+import useSearchTerm from '@/hooks/useSearchTerm';
 
 describe('useSearchTerm', () => {
   beforeEach(() => {

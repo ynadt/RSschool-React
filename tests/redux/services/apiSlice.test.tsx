@@ -1,11 +1,12 @@
-import { setupServer } from 'msw/node';
-import { http, HttpResponse } from 'msw';
-import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest';
-import { apiSlice, useGetAnimeListQuery, useGetAnimeDetailsQuery } from '@/redux/services/apiSlice';
-import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import React from 'react';
 import { cleanup, renderHook, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+
+import { apiSlice, useGetAnimeDetailsQuery, useGetAnimeListQuery } from '@/redux/services/apiSlice';
 
 const mockAnimeListResponse = {
   data: [{ id: 1, title: 'Naruto' }],

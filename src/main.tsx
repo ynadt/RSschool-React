@@ -1,13 +1,15 @@
+import '@/index.css';
+import '@/themes.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import './themes.css';
-import ErrorBoundaryWithTheme from '@components/ErrorBoundary/ErrorBoundary.tsx';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import AppRoutes from './AppRoutes';
-import store from './redux/store';
-import { ThemeProvider } from './context/ThemeContext';
+import { BrowserRouter } from 'react-router-dom';
+
+import AppRoutes from '@/AppRoutes';
+import { ThemeProvider } from '@/context/ThemeContext';
+import store from '@/redux/store';
+import ErrorBoundaryWithTheme from '@components/ErrorBoundary/ErrorBoundary.tsx';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {

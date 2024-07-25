@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import currentPageReducer from './slices/currentPageSlice';
-import favoritesReducer from './slices/favoritesSlice';
-import { apiSlice, GetAnimeListResponse } from './services/apiSlice';
+
+import { apiSlice, GetAnimeListResponse } from '@redux/services/apiSlice';
+import currentPageReducer from '@redux/slices/currentPageSlice';
+import favoritesReducer from '@redux/slices/favoritesSlice';
 
 const store = configureStore({
   reducer: {

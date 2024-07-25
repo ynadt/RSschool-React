@@ -1,7 +1,7 @@
-import { describe, it, beforeAll, beforeEach, vi, expect, afterEach } from 'vitest';
 import { JSDOM } from 'jsdom';
 import React, { act } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 beforeAll(() => {
   const dom = new JSDOM('<!DOCTYPE html><html lang="en"><body><div id="root"></div></body></html>');

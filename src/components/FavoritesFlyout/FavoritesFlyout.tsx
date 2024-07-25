@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store.ts';
-import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
 import { saveAs } from 'file-saver';
-import { generateCSVContent } from '@/utils/csvUtils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import styles from './FavoritesFlyout.module.css';
+import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
+import { RootState } from '@/redux/store.ts';
+import { generateCSVContent } from '@/utils/csvUtils';
 
 const FavoritesFlyout: React.FC = () => {
   const dispatch = useDispatch();

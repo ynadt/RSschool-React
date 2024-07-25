@@ -1,19 +1,21 @@
-import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import './App.css';
-import Search from '@components/Search/Search.tsx';
-import CardList from '@components/CardList/CardList.tsx';
-import Pagination from '@components/Pagination/Pagination.tsx';
-import useSearchTerm from './hooks/useSearchTerm';
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+
+import { useTheme } from '@/context/ThemeContext.tsx';
+import useSearchTerm from '@/hooks/useSearchTerm';
+import { useGetAnimeListQuery } from '@/redux/services/apiSlice';
+import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
+import { RootState } from '@/redux/store';
+import { ApiError } from '@/types/types.ts';
 import CardDetails from '@components/CardDetails/CardDetails.tsx';
-import { useGetAnimeListQuery } from './redux/services/apiSlice';
+import CardList from '@components/CardList/CardList.tsx';
 import FavoritesFlyout from '@components/FavoritesFlyout/FavoritesFlyout.tsx';
 import Loader from '@components/Loader/Loader.tsx';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from './redux/store';
-import { ApiError } from './types/types.ts';
-import { useTheme } from '@/context/ThemeContext.tsx';
-import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
+import Pagination from '@components/Pagination/Pagination.tsx';
+import Search from '@components/Search/Search.tsx';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
@@ -49,18 +51,28 @@ const App: React.FC = () => {
     setSearchParams({ page: searchParams.get('page') || '1' });
   }, [setSearchParams, searchParams]);
 
-  const handleCardListClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleAppClick = useCallback(
+    (event: MouseEvent) => {
       if (!(event.target instanceof HTMLElement)) return;
       const card = event.target.closest('.card');
       const paginationButton = event.target.closest('.pagination button');
       const paginationEllipsis = event.target.closest('.pagination span');
-      if (!card && !(paginationButton || paginationEllipsis) && details) {
+      const searchSection = event.target.closest('.search-section');
+      const cardDetails = event.target.closest('.cardDetails');
+
+      if (!card && !paginationButton && !paginationEllipsis && !searchSection && !cardDetails && details) {
         handleCloseDetails();
       }
     },
     [details, handleCloseDetails],
   );
+
+  useEffect(() => {
+    document.addEventListener('click', handleAppClick);
+    return () => {
+      document.removeEventListener('click', handleAppClick);
+    };
+  }, [handleAppClick]);
 
   const results = useMemo(() => data?.data || [], [data]);
   const totalItems = useMemo(() => data?.pagination.items.total || 0, [data]);
@@ -86,11 +98,7 @@ const App: React.FC = () => {
           <Loader isLoading={isLoading} error={apiError as ApiError} />
         ) : (
           <div className="results-layout">
-            <div
-              className={`results-section ${results.length === 0 ? 'no-results' : ''}`}
-              onClick={handleCardListClick}
-              ref={cardListRef}
-            >
+            <div className={`results-section ${results.length === 0 ? 'no-results' : ''}`} ref={cardListRef}>
               <CardList results={results} details={details} />
               {results.length > 0 && <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={25} />}
             </div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useGetAnimeDetailsQuery } from '@/redux/services/apiSlice.ts';
+
 import styles from './CardDetails.module.css';
+import { useGetAnimeDetailsQuery } from '@/redux/services/apiSlice.ts';
 import type { Anime, ApiError } from '@/types/types.ts';
-import Loader from '../Loader/Loader.tsx';
+import Loader from '@components/Loader/Loader.tsx';
 
 interface ItemDetailsProps {
   id: string;
@@ -38,7 +39,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   const genres = item.genres?.map((genre) => genre.name).join(', ');
 
   return (
-    <div className={styles.cardDetails}>
+    <div className={`${styles.cardDetails} cardDetails`}>
       <button className={styles.closeButton} onClick={onClose}>
         Close
       </button>

@@ -1,5 +1,6 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
-import currentPageReducer, { setCurrentPage, CurrentPageState } from '@/redux/slices/currentPageSlice';
+
+import currentPageReducer, { CurrentPageState, setCurrentPage } from '@/redux/slices/currentPageSlice';
 
 describe('currentPageSlice', () => {
   let store: EnhancedStore<{ currentPage: CurrentPageState }>;

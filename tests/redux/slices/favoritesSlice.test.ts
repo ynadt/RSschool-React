@@ -1,10 +1,11 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+
 import favoritesReducer, {
   addFavorite,
-  removeFavorite,
-  removeAllFavorites,
-  selectFavorites,
   FavoritesState,
+  removeAllFavorites,
+  removeFavorite,
+  selectFavorites,
 } from '@/redux/slices/favoritesSlice';
 import { RootState } from '@/redux/store';
 

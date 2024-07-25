@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import { ApiError } from '@/types/types';
 

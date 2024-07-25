@@ -31,7 +31,7 @@ module.exports = {
     sourceType: 'module',
     project: ['./tsconfig.app.json', './tsconfig.node.json'],
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'import', 'react-compiler'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'import', 'react-compiler', 'simple-import-sort'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error',
@@ -39,6 +39,20 @@ module.exports = {
     'import/default': 'off',
     'import/no-named-as-default-member': 'off',
     'react-compiler/react-compiler': 'error',
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        groups: [
+          ['builtin', 'external'],
+          ['internal', 'parent', 'sibling', 'index'],
+        ],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
   settings: {
     react: {
@@ -51,5 +65,11 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['node_modules', 'dist'],
+  ignorePatterns: [
+    'node_modules',
+    'dist',
+    'coverage',
+    '*.json',
+    '.eslintrc.cjs',
+  ],
 };

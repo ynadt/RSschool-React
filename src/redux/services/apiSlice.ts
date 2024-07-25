@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import { Anime } from '@/types/types.ts';
 
 export interface GetAnimeListResponse {

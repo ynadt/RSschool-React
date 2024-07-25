@@ -1,7 +1,9 @@
-import React from 'react';
-import { useTheme } from '@/context/ThemeContext.tsx';
-import { FaMoon, FaSun } from 'react-icons/fa';
 import './ThemeSelector.css';
+
+import React from 'react';
+import { FaMoon, FaSun } from 'react-icons/fa';
+
+import { useTheme } from '@/context/ThemeContext.tsx';
 
 const ThemeSelector: React.FC = () => {
   const { theme, setTheme } = useTheme();

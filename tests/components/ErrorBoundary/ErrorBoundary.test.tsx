@@ -1,8 +1,9 @@
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import ErrorBoundaryWithTheme from '@components/ErrorBoundary/ErrorBoundary.tsx';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { ThemeProvider } from '@/context/ThemeContext.tsx';
+import ErrorBoundaryWithTheme from '@components/ErrorBoundary/ErrorBoundary.tsx';
 
 const ProblematicComponent = () => {
   throw new Error('Test error');

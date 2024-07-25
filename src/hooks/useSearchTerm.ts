@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const useSearchTerm = (initialValue: string) => {
   const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || initialValue);

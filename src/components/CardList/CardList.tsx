@@ -1,6 +1,7 @@
 import React from 'react';
-import Card from '../Card/Card.tsx';
+
 import styles from './CardList.module.css';
+import Card from '@components/Card/Card.tsx';
 
 interface CardListProps {
   results: Array<{ mal_id: number; title: string; synopsis: string; images: { webp?: { image_url: string } } }>;

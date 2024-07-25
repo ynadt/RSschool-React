@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import styles from './Pagination.module.css';
+import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
 
 interface PaginationProps {
   currentPage: number;

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import NotFound from '@components/NotFound/NotFound.tsx';
 
 describe('NotFound component', () => {

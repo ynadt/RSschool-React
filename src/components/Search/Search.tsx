@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import ThemeSelector from '../ThemeSelector/ThemeSelector.tsx';
+
 import styles from './Search.module.css';
+import ThemeSelector from '@components/ThemeSelector/ThemeSelector.tsx';
 
 interface SearchProps {
   onSearch: (term: string) => void;

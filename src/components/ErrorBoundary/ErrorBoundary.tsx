@@ -1,9 +1,10 @@
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React, { ErrorInfo, ReactNode } from 'react';
+
 import styles from './ErrorBoundary.module.css';
 import { useTheme } from '@/context/ThemeContext.tsx';
 import { ApiError, ApiJsonErrorResponse } from '@/types/types.ts';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { SerializedError } from '@reduxjs/toolkit';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

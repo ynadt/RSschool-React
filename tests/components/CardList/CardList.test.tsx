@@ -1,13 +1,15 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import CardList from '@components/CardList/CardList.tsx';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import '@testing-library/jest-dom';
+
 import { configureStore } from '@reduxjs/toolkit';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import CardList from '@components/CardList/CardList.tsx';
+import { apiSlice } from '@redux/services/apiSlice';
 import currentPageReducer from '@redux/slices/currentPageSlice';
 import favoritesReducer from '@redux/slices/favoritesSlice';
-import { apiSlice } from '@redux/services/apiSlice';
-import '@testing-library/jest-dom';
 
 const mockResults = [
   {

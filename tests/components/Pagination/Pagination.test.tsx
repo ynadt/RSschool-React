@@ -1,11 +1,12 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import currentPageReducer from '@/redux/slices/currentPageSlice.ts';
+import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { describe, expect, it } from 'vitest';
+
 import Pagination from '@/components/Pagination/Pagination';
+import currentPageReducer from '@/redux/slices/currentPageSlice.ts';
 
 const renderWithProviders = (
   ui: React.ReactElement,

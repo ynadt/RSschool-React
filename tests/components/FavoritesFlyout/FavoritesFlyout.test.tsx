@@ -1,10 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { saveAs } from 'file-saver';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { describe, expect, it, vi } from 'vitest';
+
 import FavoritesFlyout from '@/components/FavoritesFlyout/FavoritesFlyout';
 import { removeAllFavorites } from '@/redux/slices/favoritesSlice';
-import { saveAs } from 'file-saver';
 import { generateCSVContent } from '@/utils/csvUtils';
 
 vi.mock('file-saver', () => ({

@@ -1,12 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import CardDetails from '@components/CardDetails/CardDetails.tsx';
-import { Provider } from 'react-redux';
-import store from '@/redux/store';
-import { BrowserRouter } from 'react-router-dom';
-import React from 'react';
-import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
+
+import store from '@/redux/store';
+import CardDetails from '@components/CardDetails/CardDetails.tsx';
 
 const mockApiResponse = {
   data: {

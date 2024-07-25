@@ -1,7 +1,8 @@
 import React from 'react';
-import { ApiError } from '@/types/types.ts';
 import { Vortex } from 'react-loader-spinner';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.tsx';
+
+import { ApiError } from '@/types/types.ts';
+import ErrorMessage from '@components/ErrorMessage/ErrorMessage.tsx';
 
 interface LoaderProps {
   isLoading: boolean;
