@@ -39,7 +39,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   const genres = item.genres?.map((genre) => genre.name).join(', ');
 
   return (
-    <div className={`${styles.cardDetails} cardDetails`}>
+    <div className={`${styles.cardDetails} card-details`}>
       <button className={styles.closeButton} onClick={onClose}>
         Close
       </button>

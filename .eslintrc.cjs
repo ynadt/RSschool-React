@@ -65,11 +65,5 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: [
-    'node_modules',
-    'dist',
-    'coverage',
-    '*.json',
-    '.eslintrc.cjs',
-  ],
+  ignorePatterns: ['node_modules', 'dist', 'coverage', '*.json', '.eslintrc.cjs'],
 };

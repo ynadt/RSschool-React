@@ -58,9 +58,18 @@ const App: React.FC = () => {
       const paginationButton = event.target.closest('.pagination button');
       const paginationEllipsis = event.target.closest('.pagination span');
       const searchSection = event.target.closest('.search-section');
-      const cardDetails = event.target.closest('.cardDetails');
+      const cardDetails = event.target.closest('.card-details');
+      const favoritesFlyout = event.target.closest('.favorites-flyout');
 
-      if (!card && !paginationButton && !paginationEllipsis && !searchSection && !cardDetails && details) {
+      if (
+        !card &&
+        !paginationButton &&
+        !paginationEllipsis &&
+        !searchSection &&
+        !cardDetails &&
+        !favoritesFlyout &&
+        details
+      ) {
         handleCloseDetails();
       }
     },

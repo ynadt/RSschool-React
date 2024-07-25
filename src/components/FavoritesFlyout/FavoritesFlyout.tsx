@@ -33,7 +33,7 @@ const FavoritesFlyout: React.FC = () => {
   if (!showFlyout || favorites.length === 0) return null;
 
   return (
-    <div className={styles.favoritesFlyout}>
+    <div className={`${styles.favoritesFlyout} favorites-flyout`}>
       <button className={styles.closeButton} onClick={() => setShowFlyout(false)}>
         ×
       </button>
