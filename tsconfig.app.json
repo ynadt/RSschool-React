@@ -29,7 +29,8 @@
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@utils/*": ["src/utils/*"],
-      "@router/*": ["src/router/*"]
+      "@router/*": ["src/router/*"],
+      "@redux/*": ["src/redux/*"]
     }
   },
   "include": ["src/**/*", "tests/**/*"]

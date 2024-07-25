@@ -76,44 +76,9 @@ body {
   align-items: flex-start;
 }
 
-.item-details {
-  text-align: left;
-}
-
-.item-details h2 {
-  margin-bottom: 10px;
-}
-
-.item-details img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.item-details p {
-  margin: 5px 0;
-}
-
-.item-details .trailer {
-  margin-top: 20px;
-}
-
 .search {
   display: flex;
   gap: 10px;
-}
-
-.results {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.result-item {
-  padding: 10px;
-  border: 1px solid var(--button-background-color);
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .loader {

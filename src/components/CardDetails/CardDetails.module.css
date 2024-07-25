@@ -35,3 +35,7 @@ button:focus-visible {
 .link:hover {
   color: var(--link-color-hover);
 }
+
+.image {
+  max-height: 40vh;
+}

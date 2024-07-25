@@ -45,11 +45,3 @@
 .theme-toggle-checkbox:checked + .theme-toggle-checkbox-label .ball {
   transform: translateX(24px);
 }
-
-.theme-toggle-checkbox-label .fa-moon {
-  color: var(--theme-toggle-moon-color);
-}
-
-.theme-toggle-checkbox-label .fa-sun {
-  color: var(--theme-toggle-sun-color);
-}

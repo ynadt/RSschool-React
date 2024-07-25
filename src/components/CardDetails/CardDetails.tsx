@@ -19,7 +19,9 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   }, [id, refetch]);
 
   useEffect(() => {
-    setLoading(isLoading);
+    if (!isLoading) {
+      setLoading(false);
+    }
   }, [isLoading]);
 
   if (loading || isLoading) {
@@ -27,7 +29,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
   }
 
   if (!data) {
-    return <Loader isLoading={true} error={error as ApiError} />;
+    return <Loader isLoading={false} error={error as ApiError} />;
   }
 
   const item: Anime = data.data;
@@ -41,7 +43,7 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
         Close
       </button>
       <h2>{item.title}</h2>
-      {imageUrl && <img src={imageUrl} alt={item.title} />}
+      {imageUrl && <img src={imageUrl} alt={item.title} className={styles.image} />}
       <p>
         <strong>Type:</strong> {item.type}
       </p>
