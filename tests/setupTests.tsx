@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 
 import { render as rtlRender, RenderOptions } from '@testing-library/react';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
-import store from '@/redux/store';
+import makeStore, { AppStore } from '@/redux/store';
 
 // Mock ResizeObserver
 class ResizeObserver {
@@ -15,11 +15,15 @@ class ResizeObserver {
 
 global.ResizeObserver = ResizeObserver;
 
-const customRender = (ui: ReactElement, options?: RenderOptions) =>
-  rtlRender(ui, {
-    wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
-    ...options,
-  });
+interface CustomRenderOptions extends Omit<RenderOptions, 'queries'> {
+  store?: AppStore;
+}
+
+const customRender = (ui: ReactElement, { store = makeStore(), ...renderOptions }: CustomRenderOptions = {}) => {
+  const Wrapper = ({ children }: { children: ReactNode }) => <Provider store={store}>{children}</Provider>;
+
+  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
+};
 
 export * from '@testing-library/react';
 export { customRender };

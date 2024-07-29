@@ -6,7 +6,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "skipLibCheck": true,
+    "esModuleInterop": true,    "skipLibCheck": true,
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
@@ -14,11 +14,15 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -33,5 +37,6 @@
       "@redux/*": ["src/redux/*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", "tests/**/*", "pages/**/*"],
+  "exclude": ["./node_modules"]
 }

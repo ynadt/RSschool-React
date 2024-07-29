@@ -1,26 +1,24 @@
-import './App.css';
-
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
 
-import { useTheme } from '@/context/ThemeContext.tsx';
+import CardDetails from '@/components/CardDetails/CardDetails';
+import CardList from '@/components/CardList/CardList';
+import FavoritesFlyout from '@/components/FavoritesFlyout/FavoritesFlyout';
+import Loader from '@/components/Loader/Loader';
+import Pagination from '@/components/Pagination/Pagination';
+import Search from '@/components/Search/Search';
+import { useTheme } from '@/context/ThemeContext';
 import useSearchTerm from '@/hooks/useSearchTerm';
 import { useGetAnimeListQuery } from '@/redux/services/apiSlice';
-import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
+import { setCurrentPage } from '@/redux/slices/currentPageSlice';
 import { RootState } from '@/redux/store';
-import { ApiError } from '@/types/types.ts';
-import CardDetails from '@components/CardDetails/CardDetails.tsx';
-import CardList from '@components/CardList/CardList.tsx';
-import FavoritesFlyout from '@components/FavoritesFlyout/FavoritesFlyout.tsx';
-import Loader from '@components/Loader/Loader.tsx';
-import Pagination from '@components/Pagination/Pagination.tsx';
-import Search from '@components/Search/Search.tsx';
+import { ApiError } from '@/types/types';
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useSearchTerm('');
-  const [searchParams, setSearchParams] = useSearchParams();
-  const details = searchParams.get('details');
+  const router = useRouter();
+  const details = router.query.details as string;
   const dispatch = useDispatch();
   const currentPage = useSelector((state: RootState) => state.currentPage.currentPage);
   const [error, setError] = useState<Error | null>(null);
@@ -31,15 +29,13 @@ const App: React.FC = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    const page = searchParams.get('page');
-    if (page) {
-      dispatch(setCurrentPage(Number(page)));
-    }
-  }, [searchParams, dispatch]);
+    const page = router.query.page ? Number(router.query.page) : 1;
+    dispatch(setCurrentPage(page));
+  }, [router.query, dispatch]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setSearchParams({ page: '1' });
+    router.push(`/?page=1`);
     dispatch(setCurrentPage(1));
   };
 
@@ -48,8 +44,8 @@ const App: React.FC = () => {
   }, []);
 
   const handleCloseDetails = useCallback(() => {
-    setSearchParams({ page: searchParams.get('page') || '1' });
-  }, [setSearchParams, searchParams]);
+    router.push(`/?page=${router.query.page || '1'}`);
+  }, [router]);
 
   const handleAppClick = useCallback(
     (event: MouseEvent) => {
@@ -124,4 +120,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Home;

@@ -1,6 +1,6 @@
+import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './Pagination.module.css';
 import { setCurrentPage } from '@/redux/slices/currentPageSlice.ts';
@@ -13,13 +13,12 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage }) => {
   const totalPages = useMemo(() => Math.ceil(totalItems / itemsPerPage), [totalItems, itemsPerPage]);
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const handlePageChange = (page: number) => {
-    searchParams.set('page', page.toString());
-    navigate(`?${searchParams.toString()}`);
+    const query = { ...router.query, page: page.toString() };
+    router.push({ pathname: router.pathname, query });
     dispatch(setCurrentPage(page));
   };
 

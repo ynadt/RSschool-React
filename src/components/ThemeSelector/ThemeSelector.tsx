@@ -1,4 +1,4 @@
-import './ThemeSelector.css';
+import './ThemeSelector.module.css';
 
 import React from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';

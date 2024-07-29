@@ -1,7 +1,7 @@
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 
 import styles from './Card.module.css';
@@ -17,16 +17,15 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActive }) => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
   const isFavorite = favorites.some((item) => item.mal_id === mal_id);
 
   const handleClick = useCallback(() => {
-    const page = searchParams.get('page') || '1';
-    navigate(`/?page=${page}&details=${mal_id}`);
-  }, [navigate, searchParams, mal_id]);
+    const page = router.query.page || '1';
+    router.push(`/?page=${page}&details=${mal_id}`);
+  }, [router, mal_id]);
 
   const handleAddFavorite = useCallback(
     (event: React.MouseEvent) => {
