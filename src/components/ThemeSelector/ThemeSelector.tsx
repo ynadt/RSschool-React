@@ -1,8 +1,7 @@
-import './ThemeSelector.module.css';
-
 import React from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
+import styles from './ThemeSelector.module.css';
 import { useTheme } from '@/context/ThemeContext.tsx';
 
 const ThemeSelector: React.FC = () => {
@@ -13,18 +12,18 @@ const ThemeSelector: React.FC = () => {
   };
 
   return (
-    <div className="theme-toggle-container">
+    <div className={`${styles.themeToggleContainer}`}>
       <input
         type="checkbox"
-        className="theme-toggle-checkbox"
+        className={`${styles.themeToggleCheckbox}`}
         id="theme-toggle"
         checked={theme === 'dark'}
         onChange={handleChange}
       />
-      <label htmlFor="theme-toggle" className="theme-toggle-checkbox-label">
+      <label htmlFor="theme-toggle" className={`${styles.themeToggleCheckboxLabel}`}>
         <FaMoon />
         <FaSun />
-        <span className="ball"></span>
+        <span className={`${styles.ball}`}></span>
       </label>
     </div>
   );

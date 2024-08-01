@@ -1,20 +1,25 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { saveAs } from 'file-saver';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './FavoritesFlyout.module.css';
-import { removeAllFavorites } from '@/redux/slices/favoritesSlice.ts';
-import { RootState } from '@/redux/store.ts';
+import { removeAllFavorites } from '@/redux/slices/favoritesSlice';
+import { RootState } from '@/redux/store';
 import { generateCSVContent } from '@/utils/csvUtils';
+
+const selectFavorites = (state: RootState) => state.favorites.favorites;
+
+const selectFavoritesMemoized = createSelector([selectFavorites], (favorites) => [...favorites]);
 
 const FavoritesFlyout: React.FC = () => {
   const dispatch = useDispatch();
-  const favorites = useSelector((state: RootState) => state.favorites.favorites);
-  const [showFlyout, setShowFlyout] = useState(favorites.length > 0);
+  const favorites = useSelector(selectFavoritesMemoized);
+  const [showFlyout, setShowFlyout] = useState(false);
 
   useEffect(() => {
     setShowFlyout(favorites.length > 0);
-  }, [favorites.length]);
+  }, [favorites]);
 
   const handleRemoveAll = useCallback(() => {
     dispatch(removeAllFavorites());

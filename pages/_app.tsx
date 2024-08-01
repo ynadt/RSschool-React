@@ -10,7 +10,7 @@ import './index.css';
 import './themes.css';
 
 const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
-  const { store, props } = wrapper.useWrappedStore(rest);
+  const { store, props } = wrapper.useWrappedStore({ rest });
 
   useEffect(() => {
     store.dispatch(initializeFavorites());

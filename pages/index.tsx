@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +11,9 @@ import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
 import { useTheme } from '@/context/ThemeContext';
 import useSearchTerm from '@/hooks/useSearchTerm';
-import { useGetAnimeListQuery } from '@/redux/services/apiSlice';
+import { apiSlice, useGetAnimeListQuery } from '@/redux/services/apiSlice';
 import { setCurrentPage } from '@/redux/slices/currentPageSlice';
-import { RootState } from '@/redux/store';
+import { RootState, wrapper } from '@/redux/store';
 import { ApiError } from '@/types/types';
 
 const Home: React.FC = () => {
@@ -31,13 +32,16 @@ const Home: React.FC = () => {
   useEffect(() => {
     const page = router.query.page ? Number(router.query.page) : 1;
     dispatch(setCurrentPage(page));
-  }, [router.query, dispatch]);
+  }, [router.query.page, dispatch]);
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    router.push(`/?page=1`);
-    dispatch(setCurrentPage(1));
-  };
+  const handleSearch = useCallback(
+    (term: string) => {
+      setSearchTerm(term);
+      router.push(`/?page=1`);
+      dispatch(setCurrentPage(1));
+    },
+    [router, dispatch, setSearchTerm],
+  );
 
   const throwError = useCallback(() => {
     setError(new Error('Test error'));
@@ -119,5 +123,27 @@ const Home: React.FC = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ query }) => {
+  const page = query.page ? Number(query.page) : 1;
+  const term = query.term ? String(query.term) : '';
+  const details = query.details ? String(query.details) : '';
+
+  store.dispatch(setCurrentPage(page));
+
+  if (term) {
+    store.dispatch(apiSlice.endpoints.getAnimeList.initiate({ term, page }));
+  }
+
+  if (details) {
+    store.dispatch(apiSlice.endpoints.getAnimeDetails.initiate(details));
+  }
+
+  await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
+
+  return {
+    props: {},
+  };
+});
 
 export default Home;

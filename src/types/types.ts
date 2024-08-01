@@ -122,3 +122,9 @@ export interface ApiJsonErrorResponse {
 }
 
 export type ApiError = FetchBaseQueryError | SerializedError | ApiJsonErrorResponse | null;
+
+export interface Favorite {
+  mal_id: number;
+  title: string;
+  synopsis: string;
+}

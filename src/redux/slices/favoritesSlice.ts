@@ -29,7 +29,7 @@ const saveFavoritesToLocalStorage = (favorites: Favorite[]) => {
 };
 
 const initialState: FavoritesState = {
-  favorites: [],
+  favorites: loadFavoritesFromLocalStorage(),
 };
 
 const favoritesSlice = createSlice({

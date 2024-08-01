@@ -6,6 +6,7 @@ import { Tooltip } from 'react-tooltip';
 
 import styles from './Card.module.css';
 import { addFavorite, removeFavorite, selectFavorites } from '@/redux/slices/favoritesSlice.ts';
+import { Favorite } from '@/types/types.ts';
 import { truncateText } from '@/utils/truncateTextUtils.ts';
 
 interface CardProps {
@@ -20,7 +21,7 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActiv
   const router = useRouter();
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
-  const isFavorite = favorites.some((item) => item.mal_id === mal_id);
+  const isFavorite = favorites.some((item: Favorite) => item.mal_id === mal_id);
 
   const handleClick = useCallback(() => {
     const page = router.query.page || '1';

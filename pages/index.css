@@ -163,3 +163,7 @@ body {
 .loader {
   font-size: 1.5rem;
 }
+
+#__next {
+  width: 100%;
+}
