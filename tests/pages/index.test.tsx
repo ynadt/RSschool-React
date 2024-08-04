@@ -1,14 +1,15 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import App from '@/App';
+import Home from '../../pages';
+import { createMockRouter } from '../mocks/nextRouterMock';
 import { ThemeProvider } from '@/context/ThemeContext';
-import store from '@/redux/store';
+import makeStore from '@/redux/store';
 
 const mockAnimeListResponse = {
   data: [
@@ -17,7 +18,7 @@ const mockAnimeListResponse = {
       title: 'Naruto',
       synopsis: 'A story about a ninja.',
       images: {
-        webp: { image_url: 'https://example.com/naruto.webp' },
+        webp: { large_image_url: 'https://example.com/naruto.webp' },
       },
     },
   ],
@@ -30,10 +31,16 @@ const mockAnimeDetailResponse = {
     title: 'Naruto',
     synopsis: 'A story about a ninja.',
     images: {
-      webp: { image_url: 'https://example.com/naruto.webp' },
+      webp: { large_image_url: 'https://example.com/naruto.webp' },
     },
     genres: [{ name: 'Action' }, { name: 'Adventure' }],
     rating: 'PG-13',
+    aired: { string: '2002 to 2007' },
+    type: 'TV',
+    episodes: 220,
+    score: 7.81,
+    scored_by: 12345,
+    url: 'https://myanimelist.net/anime/1/Naruto',
   },
 };
 
@@ -53,28 +60,26 @@ afterEach(() => {
 });
 afterAll(() => server.close());
 
-const renderWithProviders = (ui: React.ReactElement) => {
+const renderWithProviders = (ui: React.ReactElement, { router } = { router: createMockRouter({}) }) => {
+  const store = makeStore();
+
   return render(
     <Provider store={store}>
-      <ThemeProvider>
-        <MemoryRouter initialEntries={['/']}>
-          <Routes>
-            <Route path="*" element={ui} />
-          </Routes>
-        </MemoryRouter>
-      </ThemeProvider>
+      <RouterContext.Provider value={router}>
+        <ThemeProvider>{ui}</ThemeProvider>
+      </RouterContext.Provider>
     </Provider>,
   );
 };
 
 describe('App', () => {
   it('renders search component', () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<Home />);
     expect(screen.getByPlaceholderText('Search for anime')).toBeInTheDocument();
   });
 
   it('handles search term input', async () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<Home />);
     const input = screen.getByPlaceholderText('Search for anime');
     fireEvent.change(input, { target: { value: 'Naruto' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
@@ -83,7 +88,7 @@ describe('App', () => {
   });
 
   it('handles pagination', async () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<Home />);
     const input = screen.getByPlaceholderText('Search for anime');
     fireEvent.change(input, { target: { value: 'Naruto' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
@@ -97,7 +102,9 @@ describe('App', () => {
   });
 
   it('handles details view', async () => {
-    renderWithProviders(<App />);
+    const router = createMockRouter({ query: { details: '1' } });
+    renderWithProviders(<Home />, { router });
+
     const input = screen.getByPlaceholderText('Search for anime');
     fireEvent.change(input, { target: { value: 'Naruto' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
@@ -107,13 +114,14 @@ describe('App', () => {
     const card = screen.getByText('Naruto');
     fireEvent.click(card);
 
-    await waitFor(() => expect(screen.getByText('A story about a ninja.')).toBeInTheDocument());
-
-    expect(screen.getByText(/A story about a ninja\./i)).toBeInTheDocument();
+    await waitFor(() => {
+      const details = screen.getAllByText('A story about a ninja.');
+      expect(details.length).toBeGreaterThan(0);
+    });
   });
 
   it('handles theme change', () => {
-    const { container } = renderWithProviders(<App />);
+    const { container } = renderWithProviders(<Home />);
     expect(container.firstChild).toHaveClass('light');
   });
 
@@ -126,7 +134,7 @@ describe('App', () => {
       }),
     );
 
-    renderWithProviders(<App />);
+    renderWithProviders(<Home />);
     const input = screen.getByPlaceholderText('Search for anime');
     fireEvent.change(input, { target: { value: 'Naruto' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });

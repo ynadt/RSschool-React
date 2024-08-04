@@ -1,4 +1,4 @@
-import { AnyAction, configureStore } from '@reduxjs/toolkit';
+import { AnyAction, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 
@@ -32,7 +32,8 @@ const makeStore = () =>
 
 export const wrapper = createWrapper(makeStore, { debug: false });
 
-export type RootState = ReturnType<ReturnType<typeof makeStore>['getState']>;
+export type RootState = ReturnType<typeof combinedReducer>;
 export type AppStore = ReturnType<typeof makeStore>;
+export type AppDispatch = ThunkDispatch<RootState, void, AnyAction>;
 
 export default makeStore;

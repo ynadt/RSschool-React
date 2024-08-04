@@ -1,13 +1,17 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { configureStore } from '@reduxjs/toolkit';
+import { screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { vi } from 'vitest';
+import { describe, test, beforeAll, afterEach, afterAll, vi } from 'vitest';
 
-import store from '@/redux/store';
-import CardDetails from '@components/CardDetails/CardDetails.tsx';
+import { createMockRouter } from '../../mocks/nextRouterMock';
+import { customRender } from '../../setupTests';
+import { apiSlice } from '@/redux/services/apiSlice';
+import currentPageReducer from '@/redux/slices/currentPageSlice';
+import favoritesReducer from '@/redux/slices/favoritesSlice';
+import CardDetails from '@components/CardDetails/CardDetails';
 
 const mockApiResponse = {
   data: {
@@ -42,11 +46,18 @@ afterEach(() => {
 afterAll(() => server.close());
 
 const renderWithProviders = (ui: React.ReactElement) => {
-  return render(
-    <Provider store={store}>
-      <BrowserRouter>{ui}</BrowserRouter>
-    </Provider>,
-  );
+  const store = configureStore({
+    reducer: {
+      currentPage: currentPageReducer,
+      favorites: favoritesReducer,
+      [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  });
+
+  const mockRouter = createMockRouter({});
+
+  return customRender(<RouterContext.Provider value={mockRouter}>{ui}</RouterContext.Provider>, { store });
 };
 
 describe('CardDetails component', () => {
@@ -64,23 +75,25 @@ describe('CardDetails component', () => {
     expect(await screen.findByText('Kimitachi wa Dou Ikiru ka')).toBeInTheDocument();
     expect(await screen.findByText('three years into the war')).toBeInTheDocument();
     expect(await screen.findByText('PG-13 - Teens 13 or older')).toBeInTheDocument();
-    expect(
-      await screen.findByText((content, element) => {
-        return element?.tagName.toLowerCase() === 'p' && /7.61/.test(content);
-      }),
-    ).toBeInTheDocument();
+
+    const scoreElement = await screen.findByText((content, element) => {
+      return element?.tagName.toLowerCase() === 'p' && content.includes('7.61');
+    });
+    expect(scoreElement).toBeInTheDocument();
+
     expect(await screen.findByText('Movie')).toBeInTheDocument();
     expect(await screen.findByText('Jul 14, 2023 to Sep 21, 2023')).toBeInTheDocument();
-    expect(
-      await screen.findByText((content, element) => {
-        return element?.tagName.toLowerCase() === 'p' && /Adventure/.test(content);
-      }),
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText((content, element) => {
-        return element?.tagName.toLowerCase() === 'p' && /Drama/.test(content);
-      }),
-    ).toBeInTheDocument();
+
+    const adventureElement = await screen.findByText((content, element) => {
+      return element?.tagName.toLowerCase() === 'p' && content.includes('Adventure');
+    });
+    expect(adventureElement).toBeInTheDocument();
+
+    const dramaElement = await screen.findByText((content, element) => {
+      return element?.tagName.toLowerCase() === 'p' && content.includes('Drama');
+    });
+    expect(dramaElement).toBeInTheDocument();
+
     expect(await screen.findByRole('link', { name: /check it out on MyAnimeList/i })).toBeInTheDocument();
   });
 });

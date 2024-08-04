@@ -1,12 +1,14 @@
 import '@testing-library/jest-dom';
 
 import { configureStore } from '@reduxjs/toolkit';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { describe, expect, test } from 'vitest';
 
-import CardList from '@components/CardList/CardList.tsx';
+import { createMockRouter } from '../../mocks/nextRouterMock';
+import { customRender } from '../../setupTests.tsx';
+import CardList from '@components/CardList/CardList';
 import { apiSlice } from '@redux/services/apiSlice';
 import currentPageReducer from '@redux/slices/currentPageSlice';
 import favoritesReducer from '@redux/slices/favoritesSlice';
@@ -36,11 +38,9 @@ const renderWithProviders = (ui: React.ReactElement) => {
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
   });
 
-  return render(
-    <Provider store={store}>
-      <BrowserRouter>{ui}</BrowserRouter>
-    </Provider>,
-  );
+  const mockRouter = createMockRouter({});
+
+  return customRender(<RouterContext.Provider value={mockRouter}>{ui}</RouterContext.Provider>, { store });
 };
 
 describe('CardList component', () => {
