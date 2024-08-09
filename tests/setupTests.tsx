@@ -4,7 +4,7 @@ import { render as rtlRender, RenderOptions } from '@testing-library/react';
 import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
-import makeStore, { AppStore } from '@/redux/store';
+import { AppStore, makeStore } from '@/redux/store';
 
 // Mock ResizeObserver
 class ResizeObserver {

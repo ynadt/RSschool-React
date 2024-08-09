@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { apiSlice } from '@/redux/services/apiSlice';
 import currentPageReducer from '@/redux/slices/currentPageSlice';
 import favoritesReducer from '@/redux/slices/favoritesSlice';
-import makeStore, { RootState, AppStore } from '@/redux/store';
+import { RootState, AppStore, makeStore } from '@/redux/store';
 
 vi.mock('@reduxjs/toolkit/query', () => ({
   setupListeners: vi.fn(),

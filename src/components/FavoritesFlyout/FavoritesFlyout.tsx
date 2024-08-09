@@ -1,3 +1,5 @@
+'use client';
+
 import { createSelector } from '@reduxjs/toolkit';
 import { saveAs } from 'file-saver';
 import React, { useEffect, useState, useCallback } from 'react';

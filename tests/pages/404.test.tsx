@@ -4,12 +4,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { describe, it, expect, vi } from 'vitest';
 
-import Custom404 from '../../pages/404.tsx';
 import { createMockRouter } from '../mocks/nextRouterMock.ts';
 import ErrorBoundaryWithTheme from '@/components/ErrorBoundary/ErrorBoundary';
 import Loader from '@/components/Loader/Loader';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { wrapper } from '@/redux/store';
+import Custom404 from '@app/not-found.tsx';
 
 vi.mock('next/dynamic', () => ({
   __esModule: true,

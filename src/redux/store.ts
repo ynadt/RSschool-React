@@ -1,5 +1,4 @@
-import { AnyAction, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { configureStore, AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
 import { apiSlice } from '@redux/services/apiSlice';
@@ -12,28 +11,14 @@ const combinedReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-const reducer = (state: ReturnType<typeof combinedReducer> | undefined, action: AnyAction) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
-    };
-    if (state?.favorites?.favorites.length) nextState.favorites.favorites = state.favorites.favorites;
-    return nextState;
-  }
-  return combinedReducer(state, action);
-};
-
 const makeStore = () =>
   configureStore({
-    reducer,
+    reducer: combinedReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
   });
-
-export const wrapper = createWrapper(makeStore, { debug: false });
 
 export type RootState = ReturnType<typeof combinedReducer>;
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = ThunkDispatch<RootState, void, AnyAction>;
 
-export default makeStore;
+export { makeStore };

@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,8 +26,9 @@ const Card: React.FC<CardProps> = ({ mal_id, title, synopsis, image_url, isActiv
   const isFavorite = favorites.some((item: Favorite) => item.mal_id === mal_id);
 
   const handleClick = useCallback(() => {
-    const page = router.query.page || '1';
-    router.push(`/?page=${page}&details=${mal_id}`);
+    const query = new URLSearchParams(window.location.search);
+    query.set('details', mal_id.toString());
+    router.push(`?${query.toString()}`);
   }, [router, mal_id]);
 
   const handleAddFavorite = useCallback(

@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -17,8 +19,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
   const dispatch = useDispatch();
 
   const handlePageChange = (page: number) => {
-    const query = { ...router.query, page: page.toString() };
-    router.push({ pathname: router.pathname, query });
+    const query = new URLSearchParams(window.location.search);
+    query.set('page', page.toString());
+    router.push(`?${query.toString()}`);
     dispatch(setCurrentPage(page));
   };
 
