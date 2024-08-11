@@ -29,7 +29,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.app.json', './tsconfig.node.json'],
+    project: ['./tsconfig.json'],
   },
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'import', 'react-compiler', 'simple-import-sort'],
   rules: {
@@ -61,7 +61,7 @@ module.exports = {
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        project: ['./tsconfig.json'],
       },
     },
   },

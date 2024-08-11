@@ -12,15 +12,17 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = ({ isLoading, error }) => {
   if (isLoading) {
     return (
-      <Vortex
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="vortex-loading"
-        wrapperStyle={{}}
-        wrapperClass="vortex-wrapper"
-        colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-      />
+      <div data-testid="loader">
+        <Vortex
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="vortex-loading"
+          wrapperStyle={{}}
+          wrapperClass="vortex-wrapper"
+          colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+        />
+      </div>
     );
   }
 

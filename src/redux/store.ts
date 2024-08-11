@@ -1,22 +1,39 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
+import { AnyAction, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { combineReducers } from 'redux';
 
-import { apiSlice, GetAnimeListResponse } from '@redux/services/apiSlice';
+import { apiSlice } from '@redux/services/apiSlice';
 import currentPageReducer from '@redux/slices/currentPageSlice';
 import favoritesReducer from '@redux/slices/favoritesSlice';
 
-const store = configureStore({
-  reducer: {
-    currentPage: currentPageReducer,
-    favorites: favoritesReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+const combinedReducer = combineReducers({
+  currentPage: currentPageReducer,
+  favorites: favoritesReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-setupListeners(store.dispatch);
+const reducer = (state: ReturnType<typeof combinedReducer> | undefined, action: AnyAction) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      ...action.payload,
+    };
+    if (state?.favorites?.favorites.length) nextState.favorites.favorites = state.favorites.favorites;
+    return nextState;
+  }
+  return combinedReducer(state, action);
+};
 
-export type RootState = ReturnType<typeof store.getState>;
+const makeStore = () =>
+  configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  });
 
-export default store;
-export type { GetAnimeListResponse };
+export const wrapper = createWrapper(makeStore, { debug: false });
+
+export type RootState = ReturnType<typeof combinedReducer>;
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppDispatch = ThunkDispatch<RootState, void, AnyAction>;
+
+export default makeStore;

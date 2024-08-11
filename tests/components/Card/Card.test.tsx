@@ -1,25 +1,43 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { userEvent } from '@testing-library/user-event';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { describe, test, expect } from 'vitest';
 
-import { customRender as render, screen } from '../../setupTests.tsx';
-import store from '@/redux/store';
+import { createMockRouter } from '../../mocks/nextRouterMock';
+import { customRender as render, screen } from '../../setupTests';
+import { apiSlice } from '@/redux/services/apiSlice';
+import currentPageReducer from '@/redux/slices/currentPageSlice';
+import favoritesReducer from '@/redux/slices/favoritesSlice';
 import Card from '@components/Card/Card';
+
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      currentPage: currentPageReducer,
+      favorites: favoritesReducer,
+      [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  });
 
 describe('Card component', () => {
   const mockCardData = {
     mal_id: 1,
     title: 'Title 1',
     synopsis: 'Synopsis 1',
-    image_url: 'https://via.placeholder.com/150',
+    images: { webp: { image_url: 'https://via.placeholder.com/150' } },
     isActive: false,
   };
 
   const renderWithProviders = (ui: React.ReactElement) => {
+    const store = makeStore();
+    const mockRouter = createMockRouter({});
+
     return render(
       <Provider store={store}>
-        <BrowserRouter>{ui}</BrowserRouter>
+        <RouterContext.Provider value={mockRouter}>{ui}</RouterContext.Provider>
       </Provider>,
     );
   };
@@ -31,12 +49,19 @@ describe('Card component', () => {
   });
 
   test('clicking on a card opens a detailed card component', async () => {
-    renderWithProviders(<Card {...mockCardData} />);
+    const mockRouter = createMockRouter({});
+    render(
+      <Provider store={makeStore()}>
+        <RouterContext.Provider value={mockRouter}>
+          <Card {...mockCardData} />
+        </RouterContext.Provider>
+      </Provider>,
+    );
 
     const cardElement = screen.getByText(mockCardData.title).closest('.card');
     if (cardElement) {
       await userEvent.click(cardElement);
-      expect(window.location.search).toBe(`?page=1&details=${mockCardData.mal_id}`);
+      expect(mockRouter.push).toHaveBeenCalledWith(`/?page=1&details=${mockCardData.mal_id}`);
     } else {
       throw new Error('Card element not found');
     }

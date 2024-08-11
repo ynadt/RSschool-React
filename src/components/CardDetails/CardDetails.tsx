@@ -50,17 +50,17 @@ const CardDetails: React.FC<ItemDetailsProps> = ({ id, onClose }) => {
         <strong>Type:</strong> {item.type}
       </p>
       <p>
-        <strong>Episodes:</strong> {item.episodes}
+        <strong>Episodes:</strong> {item.episodes ?? 'N/A'}
       </p>
       <p>
-        <strong>Aired:</strong> {item.aired.string}
+        <strong>Aired:</strong> {item.aired?.string ?? 'N/A'}
       </p>
       <p>
-        <strong>Rating:</strong> {item.rating}
+        <strong>Rating:</strong> {item.rating ?? 'N/A'}
       </p>
       {item.score && (
         <p>
-          <strong>Score:</strong> {item.score} (scored by {item.scored_by} users)
+          <strong>Score:</strong> {item.score} (scored by {item.scored_by ?? 'N/A'} users)
         </p>
       )}
       <p>

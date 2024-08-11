@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { RootState } from '@redux/store';
+import { RootState } from '@/redux/store';
 
 interface Favorite {
   mal_id: number;
@@ -12,13 +12,20 @@ export interface FavoritesState {
   favorites: Favorite[];
 }
 
+const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
+
 const loadFavoritesFromLocalStorage = (): Favorite[] => {
-  const favorites = localStorage.getItem('favorites');
-  return favorites ? JSON.parse(favorites) : [];
+  if (isLocalStorageAvailable) {
+    const favorites = localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : [];
+  }
+  return [];
 };
 
 const saveFavoritesToLocalStorage = (favorites: Favorite[]) => {
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+  if (isLocalStorageAvailable) {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
 };
 
 const initialState: FavoritesState = {
@@ -29,6 +36,9 @@ const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
   reducers: {
+    initializeFavorites(state) {
+      state.favorites = loadFavoritesFromLocalStorage();
+    },
     addFavorite(state, action: PayloadAction<Favorite>) {
       state.favorites.push(action.payload);
       saveFavoritesToLocalStorage(state.favorites);
@@ -44,7 +54,7 @@ const favoritesSlice = createSlice({
   },
 });
 
-export const { addFavorite, removeFavorite, removeAllFavorites } = favoritesSlice.actions;
+export const { addFavorite, removeFavorite, removeAllFavorites, initializeFavorites } = favoritesSlice.actions;
 
 export const selectFavorites = (state: RootState) => state.favorites.favorites;
 

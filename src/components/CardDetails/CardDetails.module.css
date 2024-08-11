@@ -21,8 +21,8 @@
   transition: background-color 0.3s;
 }
 
-button:focus,
-button:focus-visible {
+.closeButton:focus,
+.closeButton:focus-visible {
   outline: none;
 }
 
