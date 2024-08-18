@@ -1,10 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { InferType } from 'yup';
 
+import PasswordStrengthIndicator from '../components/PasswordStrengthIndicator';
+import { toBase64, getPasswordStrength } from '../utils/formUtils';
 import { formSchema } from '../validation/schema';
 import { addFormData, RootState } from '@/store';
 
@@ -29,43 +31,19 @@ function HookForm() {
   const navigate = useNavigate();
   const countries = useSelector((state: RootState) => state.form.countries);
 
-  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
-  const passwordValue = useWatch({
-    control,
-    name: 'password',
-  });
+  const passwordValue = useWatch({ control, name: 'password' });
+  const passwordStrength = getPasswordStrength(passwordValue || '');
 
   const picture = watch('picture');
 
   useEffect(() => {
     if (picture instanceof File) {
-      setSelectedFileName(picture.name);
       setFileError(null);
-    } else {
-      setSelectedFileName(null);
     }
   }, [picture]);
-
-  const getPasswordStrength = (password: string) => {
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    const isValid = hasUpperCase && hasLowerCase && hasNumbers && hasSpecial;
-
-    return {
-      hasUpperCase,
-      hasLowerCase,
-      hasNumbers,
-      hasSpecial,
-      isValid,
-    };
-  };
-
-  const passwordStrength = getPasswordStrength(passwordValue || '');
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -87,15 +65,7 @@ function HookForm() {
     }
   };
 
-  const toBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setValue('picture', file, { shouldValidate: true });
@@ -129,14 +99,8 @@ function HookForm() {
         <label htmlFor="password">Password</label>
         <input id="password" type="password" {...register('password')} autoComplete="new-password" />
         <p className="error">{errors.password?.message}</p>
-        <div className="password-tooltip">
-          <ul>
-            <li className={passwordStrength.hasUpperCase ? 'valid' : ''}>1 uppercase letter</li>
-            <li className={passwordStrength.hasLowerCase ? 'valid' : ''}>1 lowercase letter</li>
-            <li className={passwordStrength.hasNumbers ? 'valid' : ''}>1 number</li>
-            <li className={passwordStrength.hasSpecial ? 'valid' : ''}>1 special character</li>
-          </ul>
-        </div>
+
+        <PasswordStrengthIndicator passwordStrength={passwordStrength} />
       </div>
       <div>
         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -170,7 +134,6 @@ function HookForm() {
       <div>
         <label htmlFor="picture">Upload Picture</label>
         <input id="picture" type="file" accept="image/jpeg, image/png" autoComplete="off" onChange={handleFileChange} />
-        {selectedFileName && <p>Selected file: {selectedFileName}</p>}
         {fileError && <p className="error">{fileError}</p>}
         <p className="error">{errors.picture?.message}</p>
       </div>
